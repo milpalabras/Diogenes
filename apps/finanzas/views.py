@@ -1,0 +1,146 @@
+
+from decimal import Decimal
+from multiprocessing import context
+from django.shortcuts import get_object_or_404, render, redirect
+
+from .forms import Gastosform, Ingresosform, Editarform, Categoriaform, Cuentaform
+from .models import Cuenta, Registros
+from django.views.generic import ListView, DetailView
+
+# Create your views here.
+
+def registros(request):
+    return render (request, 'finanzas/registros.html')
+
+def Cargargastos (request):
+    if request.method == 'POST':
+        form = Gastosform(request.POST)
+        if form.is_valid():
+            gasto = form.save(commit=False)
+            gasto.tipo_de_registro = 'GAST'
+            importe = int(request.POST['importe'])
+            cuenta_id = request.POST['cuenta']
+            monto = Cuenta.objects.get(pk=cuenta_id)
+            monto.monto -= importe
+            monto.save()
+            form.save()
+            return redirect('/')
+    else:
+        form = Gastosform()
+    context = {
+        'formgastos': form
+    }
+     
+    return render (request, 'layouts/base.html', context)
+
+def Cargaringresos (request):
+    if request.method == 'POST':
+        form = Ingresosform(request.POST)
+        if form.is_valid(): 
+            ingreso = form.save(commit=False)
+            ingreso.tipo_de_registro = 'INGR'
+            importe = int(request.POST['importe'])
+            cuenta_id = request.POST['cuenta']
+            monto = Cuenta.objects.get(pk=cuenta_id)
+            monto.monto += importe
+            monto.save()               
+               #monto_actual = Cuenta.objects.values_list('monto', flat=True).get(pk=cuenta_id)
+               #cuenta_actualizado = Cuenta(pk=cuenta_id, monto=(monto_actual + importe) )
+               #cuenta_actualizado.save()  
+            ingreso.save() 
+            return redirect('/')              
+    else:
+        form = Ingresosform()
+    context = {
+        'formingresos': form
+    }
+    return render (request, 'layouts/base.html', context)
+
+
+def EliminarRegistro(request, pk):
+    registro = Registros.objects.get(pk=pk)
+    importe = registro.importe
+    cuenta = registro.cuenta
+    monto = Cuenta.objects.get(nombre=cuenta)
+    tipo = registro.tipo_de_registro
+    if tipo == 'GAST' :
+        monto.monto += importe
+        monto.save()
+        registro.delete()
+        
+        return redirect ('registros')
+    else:
+        monto.monto -= importe
+        monto.save()
+        registro.delete()
+        return redirect('registros')   
+    
+
+    return redirect('/registros')
+
+
+def EditarRegistro(request, pk):
+    registro = get_object_or_404(Registros, pk=pk)
+    tipo = registro.tipo_de_registro
+    importe_actual = Decimal(registro.importe)
+   
+    if request.method == 'POST':
+        form = Editarform(request.POST, instance=registro)
+        if form.is_valid():
+            registro = form.save(commit=False)
+            registro.importe = request.POST['importe']
+            registro.cuenta_id =request.POST['cuenta']
+            registro.fecha_de_pago = request.POST['fecha_de_pago']
+            registro.nota = request.POST['nota']
+            registro.categoria_id = request.POST['categoria']
+            cuenta = Cuenta.objects.get(pk=registro.cuenta_id)
+            importe_nuevo = Decimal(registro.importe)
+            if tipo == 'GAST' :
+                if importe_actual > importe_nuevo:
+                    diferencia = importe_actual - importe_nuevo
+                    cuenta.monto += diferencia
+                elif importe_actual < importe_nuevo:
+                    diferencia = importe_nuevo - importe_actual
+                    cuenta.monto -= diferencia                
+            else:
+                if importe_actual > importe_nuevo:
+                    diferencia = importe_actual - importe_nuevo
+                    cuenta.monto -= diferencia
+                elif importe_actual < importe_nuevo:
+                    diferencia = importe_nuevo - importe_actual
+                    cuenta.monto += diferencia 
+            
+            cuenta.save()
+            registro.save()
+            
+            return redirect('registros')            
+    else:
+        form=Editarform (instance=registro)
+        context = {'form': form,  'pk':pk }
+    
+
+    return render (request, 'finanzas\editar_registro.html', context)
+
+class RegistrosList(ListView):
+    model = Registros
+    template_name = 'finanzas/registros.html'
+
+class RegistroDetalle(DetailView):
+    model = Registros
+    template_name = 'finanzas/registro_detalle.html'
+
+
+def cuentas (request):
+    if request.method == 'POST':
+          form = Cuentaform(request.POST)
+          if form.is_valid():               
+               form.save()
+               return redirect('/')
+               
+    else:          
+        form = Cuentaform()
+    context = {'formcuentas': form}
+
+    
+    
+    return render(request, 'home/index.html', context)

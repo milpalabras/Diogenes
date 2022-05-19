@@ -1,0 +1,23 @@
+<div class="modal fade" id="Modalnuevacuenta" tabindex="-1" role="dialog" aria-labelledby="Modalnuevacuenta" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content card">
+        <div class="modal-header card-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Añadir Cuenta</h5>            
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action= "{% url 'cargar_cuentas' %}" method="POST" class="post-form">{% csrf_token %}
+              {{ formcuentas.as_p}}
+                            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+</div>

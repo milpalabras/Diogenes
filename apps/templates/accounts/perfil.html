@@ -1,0 +1,182 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Settings {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+<div class="panel-header bg-primary-gradient">			
+  <div class="page-inner py-5">				
+    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+      <div>
+        <h2 class="text-white pb-2 fw-bold">Hola {{request.user.username}}</h2>
+        <h5 class="text-white op-7 mb-2">Diogenes - Control de Gastos</h5>
+      </div>
+                
+    </div>				
+  </div>			
+</div>
+<!-- Page content -->
+<div class="page-inner">
+  <form action="{% url 'profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-xl-8">
+                    <div class="card card-body ">
+                        <h2 class="h5 mb-4">Tu información de perfil</h2>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <label for="first_name">Nombre</label>
+                                    <input name="first_name" class="form-control" id="first_name" type="text"
+                                           placeholder="Ingresá tu nombre" value="{{ profile.user.first_name }}"
+                                           >
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div>
+                                    <label for="last_name">Apellido</label>
+                                    <input name="last_name" class="form-control" id="last_name" type="text"
+                                           placeholder="Tambien tu apellido" value="{{ profile.user.last_name }}"
+                                           >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-6 mb-3">
+                                <label for="fecha_de_nacimiento">Fecha de nacimiento</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                                    <input name="fecha_de_nacimiento" data-datepicker="" class="form-control" id="fecha_de_nacimiento"
+                                           type="date" placeholder="dd/mm/yyyy" value="{{ profile.fecha_de_nacimiento|date:'m/d/Y'|default:'' }}" >
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input name="email" class="form-control" id="email" type="email"
+                                           placeholder="nombre@dominio.com" value="{{ profile.user.email }}" >
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label for="celular">Celular</label>
+                                    <input name="celular" class="form-control" id="celular" type="number"
+                                           placeholder="15-xxxx-xxxx" value="{{ profile.celular }}" >
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="h5 my-4">Datos de contacto</h2>                        
+                        <div class="row">
+                            <div class="col-sm-9 mb-3">
+                                <div class="form-group">
+                                    <label for="direccion">Dirección</label>
+                                    <input name="direccion" class="form-control" id="direccion" type="text"
+                                           placeholder="Ingrese su dirección" value="{{ profile.direccion|default:'' }}" >
+                                </div>
+                            </div>
+                            <div class="col-sm-3 mb-3">
+                                <div class="form-group">
+                                    <label for="altura">Altura</label>
+                                    <input name="altura" class="form-control" id="altura" type="number"
+                                           placeholder="Numero" value="{{ profile.altura|default:'' }}" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 mb-3">
+                                <div class="form-group">
+                                    <label for="ciudad">Ciudad</label>
+                                    <input name="ciudad" class="form-control" id="ciudad" type="text" placeholder="Ciudad"
+                                           value="{{ profile.ciudad|default:'' }}" >
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mb-3">
+                              <div class="form-group">
+                                  <label for="pais">Pais</label>
+                                  <input name="pais" class="form-control" id="pais" type="text" placeholder="Argentina"
+                                         value="{{ profile.pais|default:'' }}" >
+                              </div>
+                          </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="cod_postal">CP</label>
+                                    <input name="cod_postal" class="form-control" id="cod_postal" type="text" placeholder="Codigo postal"
+                                           value="{{ profile.cod_postal|default:'' }}" >
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-9 mb-3">
+                            <div class="form-group">
+                              <label for= "sobre_mi" class="form-control-label">Sobre mi</label>
+                              <textarea name = "sobre_mi" rows="4" class="form-control" id="sobre_mi" placeholder="Algo sobre quien sos" ></textarea>
+                            </div>
+                        </div>
+                         
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-xl-4">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <div class="card border-light text-center p-0">
+                                <div class="profile-cover rounded-top"
+                                     data-background="/static/assets/img/profile-cover.jpg"></div>
+                                <div class="card-body pb-5">
+                                    <img src="{{ profile.get_avatar }}"
+                                         class="avatar-img rounded-circle"
+                                         alt="Foto de perfil">
+                                    <h4 class="h3">{{ profile.user.username }}</h4>
+                                    <h4 class="font-weight-normal">{{ profile.user.get_full_name }}</h4>
+                                    <h5 class="font-weight-normal">
+                                        {{ request.user.email }}
+                                    </h5>
+                                    <p class="text-gray mb-4">{{ profile.address|default:'' }}</p>
+                                    <a class="btn btn-sm btn-primary mr-2" href="#"><span
+                                            class="fas fa-user-plus mr-1"></span> Connect</a>
+                                    <a class="btn btn-sm btn-secondary" href="#">Send Message</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-body ">
+                                <h2 class="h5 mb-4">Elige una foto de perfil</h2>
+                                <div class="d-xl-flex align-items-center">
+                                    <div class="file-field">
+                                        <div class="d-flex justify-content-xl-center ml-xl-3">
+                                            <div class="d-flex">
+                                                <span class="icon icon-md">
+                                                    <span class="fas fa-paperclip mr-3"></span>
+                                                </span>
+                                                <input name="avatar" type="file">
+                                                <div class="d-md-block text-left">
+                                                    <div class="text-gray small">Selecciona imagen</div>
+                                                    <div class="text-gray small">JPG, GIF or PNG. tamañp maximo 800K</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+  
+</div>
+
+    
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
