@@ -68,10 +68,18 @@
 													<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar registro">
 														<a href={% url 'editar_registro' registro.pk %}><i class="fa fa-edit"></i></a>
 													</button>
-													<button   class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
-														<a href={% url 'eliminar_registro' registro.pk %}><i class="fa fa-times btn-link btn-danger"></i></a>
-														
-													</button>
+													
+													
+
+													  <form name="borrar_registro"  method="POST" action="{% url 'eliminar_registro' registro.pk %}">
+														{% csrf_token %}
+														<input type="hidden" value="{{registro.pk}}>" name="std_id"> 
+														<button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
+															<i class="fa fa-times btn-link btn-danger"></i></button>
+												  		</form>
+																										
+													
+												
 													
 												</div>
 											</td>
@@ -87,7 +95,7 @@
 		</div>
 	</div>
 
-
+	
 	
 			
 
@@ -97,6 +105,27 @@
 {% block javascripts %}
 <!-- Atlantis DEMO methods, don't include it in your project! -->
 <script src="/static/assets/js/setting-demo2.js"></script>
+<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script>
+    function validateForm() {
+		event.preventDefault(); // prevent form submit
+		var form = document.forms["borrar_registro"]; // storing the form
+		swal({
+			   title: "¿estas seguro?",
+			   text: "Una vez borrado no podrá recuperarse el registro",
+			   icon: "warning",
+			   buttons: ["No, cancelar", "Si, eliminar"],
+			   dangerMode: true,
+			 })
+			.then((willDelete) => {
+				 if (willDelete) {
+					   form.submit();
+				 } else {
+						swal("El registro no ha sido borrado");
+			 }
+		  });
+  }
+</script>
 <script >
 	$(document).ready(function() {
 		$('#basic-datatables').DataTable({
@@ -144,5 +173,8 @@
 
 		});
 	});
+
+	
 </script>
+
 {% endblock javascripts %}

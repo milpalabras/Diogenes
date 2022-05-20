@@ -35,8 +35,10 @@ def register_user(request):
             username = form.cleaned_data.get("username")
             raw_password = form.cleaned_data.get("password1")
             user = authenticate(username=username, password=raw_password)
-            msg = 'Usuario creado - Dirigase al <a href="/login">login</a>.'
             success = True
+            messages.success(request, f"Nueva cuenta creada: {username}" )
+            msg = 'Usuario creado - Dirigase al <a href="/login">login</a>.'
+            
             return redirect("/login/")
 
         else:
@@ -60,7 +62,7 @@ def Editarprofile (request):
                 profile.last_name = form.cleaned_data.get('last_name')
                 profile.email = form.cleaned_data.get('email')
                 profile.save()
-                messages.success(request, 'Profile saved successfully')        
+                messages.success(request, 'Perfil guardado satisfactoriamente')        
         return redirect('profile')
     else:
         form = ProfileForm(instance=profile)

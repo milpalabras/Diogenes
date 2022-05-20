@@ -2,6 +2,7 @@
 from decimal import Decimal
 from multiprocessing import context
 from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib import messages
 
 from .forms import Gastosform, Ingresosform, Editarform, Categoriaform, Cuentaform
 from .models import Cuenta, Registros
@@ -18,12 +19,15 @@ def Cargargastos (request):
         if form.is_valid():
             gasto = form.save(commit=False)
             gasto.tipo_de_registro = 'GAST'
+            categoria = form.cleaned_data.get('categoria')
+            importe = form.cleaned_data.get('importe')
             importe = int(request.POST['importe'])
             cuenta_id = request.POST['cuenta']
             monto = Cuenta.objects.get(pk=cuenta_id)
             monto.monto -= importe
+            messages.success(request, f"El gasto de la categoria {categoria} con el importe ${importe} ha sido guardado")
             monto.save()
-            form.save()
+            gasto.save()
             return redirect('/')
     else:
         form = Gastosform()
@@ -39,10 +43,13 @@ def Cargaringresos (request):
         if form.is_valid(): 
             ingreso = form.save(commit=False)
             ingreso.tipo_de_registro = 'INGR'
+            categoria = form.cleaned_data.get('categoria')
+            importe = form.cleaned_data.get('importe') 
             importe = int(request.POST['importe'])
             cuenta_id = request.POST['cuenta']
             monto = Cuenta.objects.get(pk=cuenta_id)
             monto.monto += importe
+            messages.success(request, f"El ingreso de la categoria {categoria} con el importe ${importe} ha sido guardado")
             monto.save()               
                #monto_actual = Cuenta.objects.values_list('monto', flat=True).get(pk=cuenta_id)
                #cuenta_actualizado = Cuenta(pk=cuenta_id, monto=(monto_actual + importe) )
@@ -60,8 +67,8 @@ def Cargaringresos (request):
 def EliminarRegistro(request, pk):
     registro = Registros.objects.get(pk=pk)
     importe = registro.importe
-    cuenta = registro.cuenta
-    monto = Cuenta.objects.get(nombre=cuenta)
+    cuenta = registro.cuenta_id
+    monto = Cuenta.objects.get(pk=cuenta)
     tipo = registro.tipo_de_registro
     if tipo == 'GAST' :
         monto.monto += importe
@@ -132,10 +139,12 @@ class RegistroDetalle(DetailView):
 
 def cuentas (request):
     if request.method == 'POST':
-          form = Cuentaform(request.POST)
-          if form.is_valid():               
-               form.save()
-               return redirect('/')
+        form = Cuentaform(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data.get('nombre')
+            messages.success(request, f"Nueva cuenta creada: {nombre}" )               
+            form.save()
+            return redirect('/')
                
     else:          
         form = Cuentaform()

@@ -20,6 +20,30 @@
 </div>
 {% endfor %}
 
+{% block javascripts %}
+
+<script> 
+  {% if messages %}
+      {% for message in messages %}
+      
+      
+      swal({
+          title: "¡Fantastico!",
+          text: "{{message}}",
+          icon: "success",
+          button: "Continuar",
+        });
+      
+  
+      
+  
+  
+      {% endfor %}
+  {% endif %}
+</script>
+
+{% endblock javascripts %}
+
 		
 
 			

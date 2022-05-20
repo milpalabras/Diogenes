@@ -60,7 +60,7 @@
 		{% if request.user.is_authenticated %}
 
 			<!-- Custom template | don't include it in your project! -->
-			
+			{% include 'includes/configuration-plugin.html' %}
 
 		{% endif %}		
 
@@ -70,7 +70,10 @@
 	{% include 'includes/modal_cargaForm.html' %}
 
     <!-- Specific Page JS goes HERE  -->
-    {% block javascripts %}{% endblock javascripts %}
+    {% block javascripts %}
+	
+
+{% endblock javascripts %}
 
 </body>
 </html>

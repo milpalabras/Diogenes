@@ -75,7 +75,32 @@
     </div>
 </div>
 
+
+       
+        
+
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script> 
+    {% if messages %}
+        {% for message in messages %}
+        
+        
+        swal({
+            title: "¡Fantastico!",
+            text: "{{message}}",
+            icon: "success",
+            button: "Continuar",
+          });
+        
+    
+        
+    
+    
+        {% endfor %}
+    {% endif %}
+</script>
+
+{% endblock javascripts %}
