@@ -13,15 +13,17 @@ from datetime import date, datetime
 def index(request):
     now=datetime.now()
     cuentas = Cuenta.objects.all()
-    #gastos_mensuales_total=Registros.objects.filter(fecha_de_pago__month=now.month).aggregate(total=Sum('importe'))
-    #ingresos_mensuales_total=Registros.objects.filter(fecha_de_ingreso__month=now.month).aggregate(total=Sum('importe'))
-    context = {'cuentas':cuentas}
+    totalanualG=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="GAST").aggregate(total=Sum('importe'))
+    totalanualI=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="INGR").aggregate(total=Sum('importe'))
+    
+    context = {'cuentas':cuentas,
+                #'totalG':round(totalanualG['total'],2),
+                #'totalI':round(totalanualI['total'], 2)   
+    
+                }
 
     return render(request, 'home/index.html', context)
-    #{       
-     #   'gastos_mensuales':gastos_mensuales_total['total'], 
-      #  'ingresos_mensuales': ingresos_mensuales_total['total']})
-
+    
 
 
 

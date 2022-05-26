@@ -1,5 +1,5 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm, ProfileForm
 from django.contrib import messages
@@ -49,21 +49,22 @@ def register_user(request):
     return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
 
 def profile (request):
-    return render (request, 'accounts/perfil.html')
+    profile, __ = Profile.objects.get_or_create(user=request.user)
+    return render (request, 'accounts/perfil.html', {'profile': profile})
 
 def Editarprofile (request):
     profile, __ = Profile.objects.get_or_create(user=request.user)
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=profile)
-
         if form.is_valid():
                 profile = form.save()
-                profile.first_name = form.cleaned_data.get('first_name')
-                profile.last_name = form.cleaned_data.get('last_name')
-                profile.email = form.cleaned_data.get('email')
-                profile.save()
+                profile.user.first_name = form.cleaned_data.get('first_name')
+                profile.user.last_name = form.cleaned_data.get('last_name')
+                profile.user.email = form.cleaned_data.get('email')
+                profile.user.save()
                 messages.success(request, 'Perfil guardado satisfactoriamente')        
-        return redirect('profile')
+        return redirect('/profile')
     else:
         form = ProfileForm(instance=profile)
-    return render (request, 'accounts/perfil.html', {'ProfileForm':form, 'profile':profile})
+    return render (request, 'accounts/editar_perfil.html', {'ProfileForm':form, 'profile':profile})
+

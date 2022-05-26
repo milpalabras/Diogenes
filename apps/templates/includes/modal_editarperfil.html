@@ -1,0 +1,115 @@
+<div class="modal fade" id="editarperfil" tabindex="-1" role="dialog" aria-labelledby="editarperfil" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content card">
+        <div class="modal-header card-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modificar datos de Perfil</h5>            
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'editar_profile' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">            
+                  <h2 class="h5 my-4">Datos del usuario</h2> 
+                  <div class="row ">
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="nombre" value="{{profile.user.first_name}}" >
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group form-group-default">
+                        <label>Apellido</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="apellido" value="{{profile.user.last_name}}" >
+                      </div>
+                    </div>										
+                  </div>
+                  <h2 class="h5 my-4">Datos de contacto</h2> 
+                  <div class="row mt-3">
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Fecha de nacimiento</label>
+                        <input type="date" class="form-control" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{profile.fecha_de_nacimiento|date:'Y-m-d' }}">
+                      </div>
+                    </div>										
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>telefono</label>
+                        <input type="text" class="form-control" value="{{profile.celular}}" name="celular" id="celular" placeholder="Telefono">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>E-mail</label>
+                        <input type="email" class="form-control" value="{{profile.user.email}}" id="email" name="email" placeholder="email">
+                      </div>
+                    </div>                                        
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-md-12">
+                      <div class="form-group form-group-default">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" value="{{profile.direccion}}" name="direccion" id="direccion" placeholder="Dirección">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row mt-3">
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Ciudad</label>
+                        <input type="text" class="form-control" id="ciudad" name="ciudad" value="{{profile.ciudad}}" placeholder="Ciudad">
+                      </div>
+                    </div>										
+                    <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Pais</label>
+                        <input type="text" class="form-control" value="{{profile.pais}}" name="pais" id="pais" placeholder="Argentina">
+                      </div>
+                    </div>
+                  <div class="col-md-4">
+                      <div class="form-group form-group-default">
+                        <label>Cod. Postal</label>
+                        <input type="text" class="form-control" value="{{profile.cod_postal}}" name="cod_postal" id="cod_postal" placeholder="Codigo Postal">
+                      </div>
+                    </div>                                        
+                  </div>
+                  <div class="row mt-3 mb-1">
+                    <div class="col-md-12">
+                      <div class="form-group form-group-default">
+                        <label>Sobre mi</label>
+                        <textarea class="form-control" name="sobre_mi" id="sobre_mi" placeholder="Algo sobre mi" rows="3">{{profile.sobre_mi}}</textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card card-body bg-dark ">
+                    <h2 class="h5 mb-4">Elige una foto de perfil</h2>
+                    <div class="d-xl-flex align-items-center">
+                        <div class="file-field">
+                            <div class="d-flex justify-content-xl-center ml-xl-3">
+                                <div class="d-flex">
+                                    <span class="icon icon-md">
+                                        <span class="fas fa-paperclip mr-3"></span>
+                                    </span>
+                                    <input name="avatar" id= "avatar" type="file">
+                                    <div class="d-md-block text-left">
+                                        <div class="text-gray small">Selecciona imagen</div>
+                                        <div class="text-gray small">JPG, GIF or PNG. tamaño maximo 800K</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>            
+            </div>
+        </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">cancelar</button>
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>

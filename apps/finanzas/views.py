@@ -4,8 +4,8 @@ from multiprocessing import context
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
 
-from .forms import Gastosform, Ingresosform, Editarform, Categoriaform, Cuentaform
-from .models import Cuenta, Registros
+from .forms import Gastosform, Ingresosform, Editarform,  Cuentaform, Categoriaform
+from .models import Categorias, Cuenta, Registros
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
@@ -20,13 +20,12 @@ def Cargargastos (request):
             gasto = form.save(commit=False)
             gasto.tipo_de_registro = 'GAST'
             categoria = form.cleaned_data.get('categoria')
-            importe = form.cleaned_data.get('importe')
-            importe = int(request.POST['importe'])
+            importe = form.cleaned_data.get('importe')            
             cuenta_id = request.POST['cuenta']
-            monto = Cuenta.objects.get(pk=cuenta_id)
-            monto.monto -= importe
+            cuenta = Cuenta.objects.get(pk=cuenta_id)
+            cuenta.monto -= importe
             messages.success(request, f"El gasto de la categoria {categoria} con el importe ${importe} ha sido guardado")
-            monto.save()
+            cuenta.save()
             gasto.save()
             return redirect('/')
     else:
@@ -44,13 +43,12 @@ def Cargaringresos (request):
             ingreso = form.save(commit=False)
             ingreso.tipo_de_registro = 'INGR'
             categoria = form.cleaned_data.get('categoria')
-            importe = form.cleaned_data.get('importe') 
-            importe = int(request.POST['importe'])
+            importe = form.cleaned_data.get('importe')             
             cuenta_id = request.POST['cuenta']
-            monto = Cuenta.objects.get(pk=cuenta_id)
-            monto.monto += importe
+            cuenta = Cuenta.objects.get(pk=cuenta_id)
+            cuenta.monto += importe
             messages.success(request, f"El ingreso de la categoria {categoria} con el importe ${importe} ha sido guardado")
-            monto.save()               
+            cuenta.save()               
                #monto_actual = Cuenta.objects.values_list('monto', flat=True).get(pk=cuenta_id)
                #cuenta_actualizado = Cuenta(pk=cuenta_id, monto=(monto_actual + importe) )
                #cuenta_actualizado.save()  
@@ -137,19 +135,53 @@ class RegistroDetalle(DetailView):
     template_name = 'finanzas/registro_detalle.html'
 
 
-def cuentas (request):
+class CuentasList(ListView):
+    model = Cuenta
+    template_name = 'finanzas/cuentas.html'
+
+class CuentaDetalle(DetailView):
+    model = Cuenta
+    template_name = 'finanzas/cuenta_detalle.html'
+
+def crearcuenta (request):
     if request.method == 'POST':
         form = Cuentaform(request.POST)
         if form.is_valid():
             nombre = form.cleaned_data.get('nombre')
             messages.success(request, f"Nueva cuenta creada: {nombre}" )               
             form.save()
-            return redirect('/')
-               
+            return redirect('/')               
     else:          
         form = Cuentaform()
     context = {'formcuentas': form}
-
-    
-    
     return render(request, 'home/index.html', context)
+
+def Editarcuenta (request, pk):
+    cuenta = get_object_or_404(Cuenta, pk=pk)
+    if request.method == 'POST':
+        form = Cuentaform(request.POST, instance=cuenta)
+        if form.is_valid():
+            nombre = form.cleaned_data.get('nombre')
+            messages.success(request, f"Cuenta modificada {nombre}" )               
+            form.save()
+            return redirect('/')               
+    else:          
+        form = Cuentaform(instance=cuenta)
+    context = {'formcuentas': form}
+    return render(request, 'finanzas/cuentas.html', context)
+
+def Eliminarcuenta (request, pk):
+    cuenta = get_object_or_404(Cuenta, pk=pk)
+    cuenta.delete()
+    return redirect('/')
+
+def Crearsubcategoria (request):     
+     categorias = Categorias.objects.filter(parent__isnull=True)
+     if request.method == 'POST':
+          form = Categoriaform(request.POST)
+          if form.is_valid():               
+               form.save()
+               return redirect('/')
+     else:
+          form = Categoriaform()
+     return render (request, 'finanzas/categorias.html',{'form':form, 'categorias':categorias})

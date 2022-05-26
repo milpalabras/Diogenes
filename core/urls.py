@@ -20,9 +20,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('summernote/', include('django_summernote.urls')),
     path("", include("home.urls")),
     path("", include("finanzas.urls")),
     path("", include("accounts.urls")),
+    path("", include("dashboard.urls")),
+    path("mensajes/", include("mensajeria.urls"))
+   
 
 ]
 

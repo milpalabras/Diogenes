@@ -52,19 +52,21 @@
 						<div class="card-body">
 							<div class="card-title">Estadisticas de gastos</div>
 							<div class="card-category">Informacion de gastos ultimos 30 dias </div>
-							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
-								<div class="px-2 pb-2 pb-md-0 text-center">
-									<div id="circles-1"></div>
-									<h6 class="fw-bold mt-3 mb-0">Gastos necesarios</h6>
-								</div>
-								<div class="px-2 pb-2 pb-md-0 text-center">
-									<div id="circles-2"></div>
-									<h6 class="fw-bold mt-3 mb-0">Gastos prescindibles</h6>
-								</div>
-								<div class="px-2 pb-2 pb-md-0 text-center">
-									<div id="circles-3"></div>
-									<h6 class="fw-bold mt-3 mb-0">Gastos obligatorios</h6>
-								</div>
+							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4" id="circlegastos" data-url = "{% url 'circlegastos' %}">
+								
+									<div class="px-2 pb-2 pb-md-0 text-center">
+										<div id="necesarios" ></div>
+										<h6 class="fw-bold mt-3 mb-0">Gastos necesarios</h6>
+									</div>
+									<div class="px-2 pb-2 pb-md-0 text-center">
+										<div id="prescindibles" ></div>
+										<h6 class="fw-bold mt-3 mb-0">Gastos prescindibles</h6>
+									</div>
+									<div class="px-2 pb-2 pb-md-0 text-center">
+										<div id="obligatorios"></div>
+										<h6 class="fw-bold mt-3 mb-0">Gastos obligatorios</h6>
+									</div>
+								
 							</div>
 						</div>
 					</div>
@@ -77,16 +79,16 @@
 								<div class="col-md-4 d-flex flex-column justify-content-around">
 									<div>
 										<h6 class="fw-bold text-uppercase text-success op-8">Ingresos totales</h6>
-										<h3 class="fw-bold">$9.782</h3>
+										<h3 class="fw-bold">${{totalI}}</h3>
 									</div>
 									<div>
 										<h6 class="fw-bold text-uppercase text-danger op-8">Gastos totales</h6>
-										<h3 class="fw-bold">$1,248</h3>
+										<h3 class="fw-bold">${{totalG}}</h3>
 									</div>
 								</div>
 								<div class="col-md-8">
 									<div id="chart-container">
-										<canvas id="totalIncomeChart"></canvas>
+										<canvas id="Chartingresosgastos" data-url="{% url 'Chartingresosgastos' %}"></canvas>
 									</div>
 								</div>
 							</div>
@@ -118,7 +120,7 @@
 						</div>
 						<div class="card-body">
 							<div class="chart-container" style="min-height: 375px">
-								<canvas id="statisticsChart"></canvas>
+								<canvas id="statisticsChart" data-url = "{% url 'barras_FNP' %}"></canvas>
 							</div>
 							<div id="myChartLegend"></div>
 						</div>
@@ -152,155 +154,7 @@
 				</div>
 			</div>
 		
-			<div class="row">
-				<div class="col-md-4">
-					<div class="card">
-						<div class="card-header">
-							<div class="card-title">Top Products</div>
-						</div>
-						<div class="card-body pb-0">
-							<div class="d-flex">
-								<div class="avatar">
-									<img src="/static/assets/img/logoproduct.svg" alt="..." class="avatar-img rounded-circle">
-								</div>
-								<div class="flex-1 pt-1 ml-2">
-									<h6 class="fw-bold mb-1">CSS</h6>
-									<small class="text-muted">Cascading Style Sheets</small>
-								</div>
-								<div class="d-flex ml-auto align-items-center">
-									<h3 class="text-info fw-bold">+$17</h3>
-								</div>
-							</div>
-							<div class="separator-dashed"></div>
-							<div class="d-flex">
-								<div class="avatar">
-									<img src="/static/assets/img/logoproduct.svg" alt="..." class="avatar-img rounded-circle">
-								</div>
-								<div class="flex-1 pt-1 ml-2">
-									<h6 class="fw-bold mb-1">J.CO Donuts</h6>
-									<small class="text-muted">The Best Donuts</small>
-								</div>
-								<div class="d-flex ml-auto align-items-center">
-									<h3 class="text-info fw-bold">+$300</h3>
-								</div>
-							</div>
-							<div class="separator-dashed"></div>
-							<div class="d-flex">
-								<div class="avatar">
-									<img src="/static/assets/img/logoproduct3.svg" alt="..." class="avatar-img rounded-circle">
-								</div>
-								<div class="flex-1 pt-1 ml-2">
-									<h6 class="fw-bold mb-1">Ready Pro</h6>
-									<small class="text-muted">Bootstrap 4 Admin Dashboard</small>
-								</div>
-								<div class="d-flex ml-auto align-items-center">
-									<h3 class="text-info fw-bold">+$350</h3>
-								</div>
-							</div>
-							<div class="separator-dashed"></div>
-							<div class="pull-in">
-								<canvas id="topProductsChart"></canvas>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card">
-						<div class="card-body">
-							<div class="card-title fw-mediumbold">Suggested People</div>
-							<div class="card-list">
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Jimmy Denis</div>
-										<div class="status">Graphic Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/chadengle.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Chad</div>
-										<div class="status">CEO Zeleaf</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Talha</div>
-										<div class="status">Front End Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/mlane.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">John Doe</div>
-										<div class="status">Back End Developer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/talha.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Talha</div>
-										<div class="status">Front End Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-								<div class="item-list">
-									<div class="avatar">
-										<img src="/static/assets/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle">
-									</div>
-									<div class="info-user ml-3">
-										<div class="username">Jimmy Denis</div>
-										<div class="status">Graphic Designer</div>
-									</div>
-									<button class="btn btn-icon btn-primary btn-round btn-xs">
-										<i class="fa fa-plus"></i>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="card card-primary bg-primary-gradient">
-						<div class="card-body">
-							<h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
-							<h1 class="mb-4 fw-bold">17</h1>
-							<h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
-							<div id="activeUsersChart"></div>
-							<h4 class="mt-5 pb-3 mb-0 fw-bold">Top active pages</h4>
-							<ul class="list-unstyled">
-								<li class="d-flex justify-content-between pb-1 pt-1"><small>/product/readypro/index.html</small> <span>7</span></li>
-								<li class="d-flex justify-content-between pb-1 pt-1"><small>/product/atlantis/demo.html</small> <span>10</span></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
+			
 			
 		</div>
 	</div>
@@ -315,13 +169,22 @@
 	<script src="/static/assets/js/demo.js"></script>
 
 	<script>
+			
+		
+		$(function () {
+
+			var $circlegastos = $("#circlegastos");
+			$.ajax({
+			  url: $circlegastos.data("url"),
+			  success: function (data) {
+
 		Circles.create({
-			id:'circles-1',
+			id:'necesarios',
 			radius:45,
-			value:60,
+			value:data.porcentajeN,
 			maxValue:100,
 			width:7,
-			text: 5,
+			text: data.dataN,
 			colors:['#f1f1f1', '#FF9E27'],
 			duration:400,
 			wrpClass:'circles-wrp',
@@ -331,12 +194,12 @@
 		})
 
 		Circles.create({
-			id:'circles-2',
+			id:'prescindibles',
 			radius:45,
-			value:70,
+			value:data.porcentajeP,
 			maxValue:100,
 			width:7,
-			text: 36,
+			text: data.dataP,
 			colors:['#f1f1f1', '#2BB930'],
 			duration:400,
 			wrpClass:'circles-wrp',
@@ -346,12 +209,12 @@
 		})
 
 		Circles.create({
-			id:'circles-3',
+			id:'obligatorios',
 			radius:45,
-			value:40,
+			value:data.porcentajeF,
 			maxValue:100,
 			width:7,
-			text: 12,
+			text: data.dataF,
 			colors:['#f1f1f1', '#F25961'],
 			duration:400,
 			wrpClass:'circles-wrp',
@@ -359,18 +222,35 @@
 			styleWrapper:true,
 			styleText:true
 		})
+	}
 
-		var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+	});
 
-		var mytotalIncomeChart = new Chart(totalIncomeChart, {
+});
+
+$(function () {
+
+	var $Chartingresosgastos = $("#Chartingresosgastos");
+	$.ajax({
+	  url: $Chartingresosgastos.data("url"),
+	  success: function (data) {
+		var ctx = $Chartingresosgastos[0].getContext('2d');
+
+		new Chart(ctx, {
 			type: 'bar',
 			data: {
-				labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+				labels: data.labels,
 				datasets : [{
 					label: "Total Income",
-					backgroundColor: '#ff9e27',
+					backgroundColor: '#31ce36',
 					borderColor: 'rgb(23, 125, 255)',
-					data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+					data: data.dataI
+				},
+				{
+					label: "Total Outcome",
+					backgroundColor: '#f25961',
+					borderColor: 'rgb(23, 125, 255)',
+					data: data.dataG
 				}],
 			},
 			options: {
@@ -398,6 +278,11 @@
 				},
 			}
 		});
+	}
+
+});
+
+});
 
 		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
 			type: 'line',

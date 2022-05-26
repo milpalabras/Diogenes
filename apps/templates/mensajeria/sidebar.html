@@ -1,0 +1,33 @@
+
+
+
+{% block sidebar %}
+<div class="page-aside ">
+    <div class="aside-header">
+        <div class="title">Mensajes</div>
+        <div class="description">Servicio de mensajeria uno a uno para usuarios de Diogenes</div>        
+    </div>
+    <div class="aside-compose"><a href="{% url 'messages_compose' %}" class="btn btn-secondary btn-block fw-mediumbold">Nuevo mensaje</a></div>
+    <div class="aside-nav" >
+        <ul class="nav nav-primary">
+            <li class=" nav-item {% if request.path == '/inbox' %} active {% endif %}">
+                <a href="{% url 'messages_inbox' %}">
+                    <i class="flaticon-inbox"></i> Recibidos
+                    {% if messages_inbox_count %}<span class="badge badge-primary float-right">{{messages_inbox_count}}</span>{% endif %}
+                </a>
+            </li>
+            <li class="nav-item {% if request.path == '/outbox' %} active {% endif %}">
+                <a href="{% url 'messages_outbox' %}">
+                    <i class="fa fa-envelope"></i> Enviados
+                </a>
+            </li>            
+            <li class="nav-item {% if request.path == '/trash' %} active {% endif %}">
+                <a href="{% url 'messages_trash' %}">
+                    <i class="flaticon-interface-5"></i> Papelera
+                </a>
+            </li>
+        </ul>        
+        
+    </div>
+</div>
+{% endblock %}

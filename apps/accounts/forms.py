@@ -5,6 +5,7 @@ from .models import Profile
 
 
 
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
@@ -61,8 +62,9 @@ class ProfileForm(forms.ModelForm):
     first_name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
     email = forms.EmailField()
+    
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = '__all__'       
         exclude = ['user']

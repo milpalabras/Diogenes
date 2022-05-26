@@ -1,0 +1,157 @@
+{% extends "layouts/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-with-aside mail-wrapper bg-dark2">
+
+
+            {% include "mensajeria/sidebar.html" %}
+            <div class="page-content mail-content">
+                <div class="inbox-head d-lg-flex d-block">
+                    <h3>Inbox</h3>
+                    <form action="https://themekita.com/demo-atlantis-bootstrap/livepreview/examples/demo1/email-inbox.html#" class="ml-auto">
+                        <div class="input-group">
+                            <input type="text" placeholder="Search Email" class="form-control">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search search-icon"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="inbox-body">
+                    <div class="card">						
+						<div class="card-body">
+							<div class="table-responsive">
+								{% if message_list %}
+								<table id="add-row" class="display table table-striped table-hover" >
+									<thead>
+										<tr>
+											<th>De</th>
+											<th>Asunto</th>
+											<th>Recibido</th>											
+											<th style="width: 10%" class=""></th>
+										</tr>
+									</thead>									
+									<tbody>
+										{% for message in message_list %}
+										
+										<tr>
+											<td>{{ message.sender }}</td>
+											<td>
+                                                {% if message.new %}<strong>{% endif %}
+                                                {% if message.replied %}<em>{% endif %}
+                                                {{ message.subject }}
+                                                {% if message.replied %}</em>{% endif %}
+                                                {% if message.new %}</strong>{% endif %}</td>
+                                                <td>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>											
+												<td>
+													<div class="form-button-action">
+														<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-success btn-lg" data-original-title="Ver mensaje">
+														<a href="{{ message.get_absolute_url }}"><i class="fas fa-eye btn-link btn-success"></i></a>
+														</button>
+														<form name="borrar_registro"  method="POST" action="{% url 'messages_delete' message.id %}">
+														{% csrf_token %}
+														<input type="hidden" value="{{message.id}}>" name="std_id"> 
+														<button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar mensaje">
+															<i class="fa fa-times btn-link btn-danger"></i></button>
+														</form>
+													</div>
+												</td>											
+										</tr>
+										
+										{% endfor %}
+									</tbody>                                                                    
+								</table>
+                                {% else %}
+                                <p> "No hay mensajes"</p>
+                                {% endif %}
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<!-- Atlantis DEMO methods, don't include it in your project! -->
+<script src="/static/assets/js/setting-demo2.js"></script>
+<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script>
+    function validateForm() {
+		event.preventDefault(); // prevent form submit
+		var form = document.forms["borrar_registro"]; // storing the form
+		swal({
+			   title: "¿estas seguro?",
+			   text: "El mensaje se enviará a la papelera y se eliminará automaticamente en 30 dias",
+			   icon: "warning",
+			   buttons: ["No, cancelar", "Si, eliminar"],
+			   dangerMode: true,
+			 })
+			.then((willDelete) => {
+				 if (willDelete) {
+					   form.submit();
+				 } else {
+						swal("El mensaje no ha sido borrado");
+			 }
+		  });
+  }
+</script>
+<script >
+	$(document).ready(function() {
+		$('#basic-datatables').DataTable({
+		});
+
+		$('#multi-filter-select').DataTable( {
+			"pageLength": 5,
+			initComplete: function () {
+				this.api().columns().every( function () {
+					var column = this;
+					var select = $('<select class="form-control"><option value=""></option></select>')
+					.appendTo( $(column.footer()).empty() )
+					.on( 'change', function () {
+						var val = $.fn.dataTable.util.escapeRegex(
+							$(this).val()
+							);
+
+						column
+						.search( val ? '^'+val+'$' : '', true, false )
+						.draw();
+					} );
+
+					column.data().unique().sort().each( function ( d, j ) {
+						select.append( '<option value="'+d+'">'+d+'</option>' )
+					} );
+				} );
+			}
+		});
+
+		// Add Row
+		$('#add-row').DataTable({
+			"pageLength": 5,
+		});
+
+		var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+		$('#addRowButton').click(function() {
+			$('#add-row').dataTable().fnAddData([
+				$("#addName").val(),
+				$("#addPosition").val(),
+				$("#addOffice").val(),
+				action
+				]);
+			$('#addRowModal').modal('hide');
+
+		});
+	});
+
+	
+</script>
+
+{% endblock javascripts %}

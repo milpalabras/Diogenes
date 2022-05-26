@@ -1,4 +1,5 @@
 from decimal import Decimal
+from pickle import TRUE
 from django.core.validators import MinValueValidator
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
@@ -35,15 +36,17 @@ class Cuenta (models.Model):
 
 class Categorias (MPTTModel):
     nombre = models.CharField(max_length=30)
-    parent = TreeForeignKey ('self', on_delete=models.CASCADE, related_name='children', null=True, blank=True)
-    icon = models.ImageField(upload_to='icon_categoriagastos', null=True, blank=True)
+    parent = TreeForeignKey ('self', on_delete=models.CASCADE, related_name='children', null=True, blank=True, related_query_name='subcategoria')
+    icon = models.ImageField(upload_to='categorias/icon', null=True, blank=True)
     color = ColorField(default='#FF0000')    
-    class Tipodegasto (models.TextChoices):
-        FIJO ='F', _('Fijo-Obligatorio')
-        NECESIDAD = 'N', _('Necesario-Sobrevivencia')
-        PRESCINDIBLE = 'P',_('Prescindible-Lujo')       
+    class Tipodecategoria (models.TextChoices):
+        FIJO ='F', _('Gasto Fijo(Obligatorio)')
+        NECESIDAD = 'N', _('Gasto Necesario(Sobrevivencia)')
+        PRESCINDIBLE = 'P',_('Gasto Prescindible(Lujo)')
+        INGRESO = 'I',_('Ingreso de dinero')
+        PADRE = 'C',_('Categoria Padre (admin)')       
     
-    tipo_de_gasto = models.CharField(max_length=1, choices=Tipodegasto.choices, default=Tipodegasto.FIJO)
+    tipo_de_categoria = models.CharField(max_length=1, choices=Tipodecategoria.choices, default=Tipodecategoria.FIJO)
 
     class MPTTMeta:
         order_insertion_by=['nombre']
@@ -53,6 +56,7 @@ class Categorias (MPTTModel):
 
     def __str__(self):
         return self.nombre
+
 
     
 

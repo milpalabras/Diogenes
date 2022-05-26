@@ -1,0 +1,125 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} _Cuentas {% endblock %} 
+
+<!-- Css para la pagina actual -->
+{% block stylesheets %} {% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+  <div class="page-inner">
+    
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Cuentas</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="multi-filter-select" class="display table table-striped table-hover" >
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo de cuenta</th>
+                  <th>Monto</th>
+                  <th>Accion</th>                 
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Tipo de cuenta</th>
+                  <th>Monto</th>
+                  <th>Accion</th>                  
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for cuenta in object_list %}
+                <tr>
+                  <td>{{cuenta.nombre}}</td>
+                  <td>{{cuenta.get_tipo_de_cuenta_display}}</td>
+                  <td>{{cuenta.monto}}</td>
+                  <td>
+                    <div class="form-button-action">
+                      <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-success btn-lg" data-original-title="Ver registro">
+                        <a href={% url 'cuenta_detalle' cuenta.pk %}><i class="fas fa-eye btn-link btn-success"></i></a>
+                      </button>
+                      <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar registro">
+                        <a href={% url 'editar_cuenta' cuenta.pk %}><i class="fa fa-edit"></i></a>
+                      </button>
+                        <form name="borrar_cuenta"  method="POST" action="{% url 'eliminar_cuenta' cuenta.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{cuenta.pk}}>" name="std_id"> 
+                        <button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
+                          <i class="fa fa-times btn-link btn-danger"></i></button>
+                          </form>
+                    </div>
+                  </td>                  
+                </tr>
+                {% endfor %}                       
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        
+    
+  </div>
+</div>
+
+
+{% endblock content %} 
+
+
+<!--  JS para esta pagina  -->
+{% block javascripts %} 
+<script>
+  $('#multi-filter-select').DataTable( {
+    "pageLength": 5,
+    initComplete: function () {
+      this.api().columns().every( function () {
+        var column = this;
+        var select = $('<select class="form-control"><option value=""></option></select>')
+        .appendTo( $(column.header()).empty() )
+        .on( 'change', function () {
+          var val = $.fn.dataTable.util.escapeRegex(
+            $(this).val()
+            );
+
+          column
+          .search( val ? '^'+val+'$' : '', true, false )
+          .draw();
+        } );
+
+        column.data().unique().sort().each( function ( d, j ) {
+          select.append( '<option value="'+d+'">'+d+'</option>' )
+        } );
+      } );
+    }
+  });
+
+
+  function validateForm() {
+		event.preventDefault(); // prevent form submit
+		var form = document.forms["borrar_registro"]; // storing the form
+		swal({
+			   title: "¿estas seguro?",
+			   text: "Una vez borrado no podrá recuperarse el registro",
+			   icon: "warning",
+			   buttons: ["No, cancelar", "Si, eliminar"],
+			   dangerMode: true,
+			 })
+			.then((willDelete) => {
+				 if (willDelete) {
+					   form.submit();
+				 } else {
+						swal("El registro no ha sido borrado");
+			 }
+		  });
+  }
+</script>
+
+
+{% endblock javascripts %}

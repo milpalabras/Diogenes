@@ -5,6 +5,7 @@
 
 	<title>
         Django Atlantis Dark - {% block title %}{% endblock %} | AppSeed
+		
     </title>
 
 	<meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
@@ -25,14 +26,22 @@
 	</script>
 
 	<!-- CSS Files -->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="/static/assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/assets/css/atlantis.css">
+	
+	
+	
+	
+	
 
 	<!-- CSS Just for demo purpose, don't include it in your project -->
 	<link rel="stylesheet" href="/static/assets/css/demo.css">
 
     <!-- Specific Page CSS goes HERE  -->
-    {% block stylesheets %}{% endblock stylesheets %}
+    {% block stylesheets %}
+	
+	{% endblock stylesheets %}
 
 </head>
 <body data-background-color="dark">
@@ -59,15 +68,17 @@
         
 		{% if request.user.is_authenticated %}
 
-			<!-- Custom template | don't include it in your project! -->
-			{% include 'includes/configuration-plugin.html' %}
+			
+			
 
 		{% endif %}		
 
 	</div>
 
 	{% include 'includes/scripts.html' %}
+
 	{% include 'includes/modal_cargaForm.html' %}
+	
 
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}

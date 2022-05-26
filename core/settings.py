@@ -44,10 +44,13 @@ INSTALLED_APPS = [
     #complementos
     'mptt',
     'colorfield',
-    #Apps
+    'django_summernote',
+     #Apps
     'home',
     'finanzas',
-    'accounts'
+    'accounts',
+    'mensajeria',
+    
     
 
 
@@ -80,6 +83,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'finanzas.context_processor.inject_form',
+                'mensajeria.context_processor.inbox',
+                'mensajeria.context_processor.mensaje_sin_leer',
+                
             ],
         },
     },
@@ -94,7 +100,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 

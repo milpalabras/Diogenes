@@ -1,0 +1,76 @@
+{% extends "layouts/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+        <div class="page-with-aside mail-wrapper bg-dark2">
+            {% include "mensajeria/sidebar.html" %}
+            <div class="page-content mail-content">
+                <div class="email-head d-lg-flex d-block">
+                    <h3>
+                        <i class="flaticon-pen mr-1"></i>
+                        Nuevo mensaje
+                    </h3>
+                </div>
+                <div class="email-compose-fields">
+                    <form  method="post">
+                        {% csrf_token %}
+                        <table>
+                            {{ form.as_table }}
+                            </table>
+                        <div class="email-action">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                            <button class="btn btn-danger">Cancel</button>
+                        </div>
+            </form>
+                
+                    
+                    
+                    
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+<!-- Atlantis DEMO methods, don't include it in your project! -->
+<script src="/static/assets/js/plugin/summernote/summernote-bs4.js"></script>
+<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+<script>
+    function validateForm() {
+		event.preventDefault(); // prevent form submit
+		var form = document.forms["borrar_registro"]; // storing the form
+		swal({
+			   title: "¿estas seguro?",
+			   text: "El mensaje se enviará a la papelera y se eliminará automaticamente en 30 dias",
+			   icon: "warning",
+			   buttons: ["No, cancelar", "Si, eliminar"],
+			   dangerMode: true,
+			 })
+			.then((willDelete) => {
+				 if (willDelete) {
+					   form.submit();
+				 } else {
+						swal("El mensaje no ha sido borrado");
+			 }
+		  });
+  }
+</script>
+<script>
+    $(document).ready(function() {
+        $('#body').summernote({
+        fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+        tabsize: 2,
+        height: 300
+      });
+    });
+</script>
+
+{% endblock javascripts %}

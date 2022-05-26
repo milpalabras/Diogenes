@@ -10,8 +10,7 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to="profiles/avatars/", null=True, blank=True)
     fecha_de_nacimiento = models.DateField(null=True, blank=True)    
     celular = models.CharField(max_length=32, null=True, blank=True)
-    direccion = models.CharField(max_length=255, null=True, blank=True)
-    altura = models.CharField(max_length=32, null=True, blank=True)
+    direccion = models.CharField(max_length=255, null=True, blank=True)    
     pais = models.CharField(max_length=255, null=True, blank=True)    
     ciudad = models.CharField(max_length=50, null=True, blank=True)
     cod_postal = models.CharField(max_length=30, null=True, blank=True)
@@ -24,6 +23,9 @@ class Profile(models.Model):
     class Meta:
         verbose_name = 'Perfil de usuario'
         verbose_name_plural = 'Perfiles de usuarios'
+    
+    def __str__(self):
+        return self.user.username
 
     @property
     def get_avatar(self):
