@@ -6,94 +6,57 @@
 {% block stylesheets %} {% endblock stylesheets %}
 
 {% block content %}
-<div class="pcoded-content">
-    <div class="pcoded-inner-content">
-       
-        <div class="col-sm-12">
-            <h5 class="mb-3">Categorias de gastos</h5>
-            
-            <hr>
-            <nav class="main-header navbar navbar-expand navbar-white navbar-light">   
-                <!--  navbar links alineados a la derecha -->
-                <ul class="navbar-nav ml-auto">
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#añadircategoria">
-                        AÑADIR CATEGORIA
-                    </button>
-                
-                </ul>
-            </nav>
-            
-            
+<div class="content">
+    <div class="page-inner">      
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">Categorias</h4>
+              <div style="display: flex;justify-content: flex-end;align-items: center;">
+                <a href="#" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#Modalcategoria" >añadir categoria</a>
+              </div> 
               
-            
-
-
-
-
-
-
-
-
-            
-            <div class="accordion" id="accordionExample">
-              {% if categorias %}  
-                {% for categoria in categorias %}
-                  <div class="card">
-                      <div class="card-header" id="headingOne{{categoria.pk}}">
-                          <h5 class="mb-0"><a href="#!" data-toggle="collapse" data-target="#collapseOne{{categoria.id}}" aria-expanded="true" aria-controls="collapseOne{{categoria.id}}">{{categoria.nombre}}</a></h5>
-                      </div>
-                          {% if categoria.children.all %}
-                        <div id="collapseOne{{categoria.id}}" class=" card-body collapse " aria-labelledby="headingOne{{categoria.pk}}" data-parent="#accordionExample">
-                            {% for child in categoria.children.all %}
-                            <li>{{child.nombre}}</li>
-                            {% endfor %}
-                        </div>
-                          {% endif %}
-                  </div>                
-                {% endfor %}
-              {% endif %}
-                
-            
+          </div>
+          <div class="card-body">
+            <div class="row">
+              {% for categoria in categorias %}
+              <div class="col-5 col-md-4">
+                <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd"  role="tablist" aria-orientation="vertical">
+                  <a class="nav-link " data-toggle="collapse" href="#{{categoria.pk}}" role="tab" aria-controls="v-pills-home-nobd" aria-selected="false">{{categoria.nombre}}</a>                  
+                </div>
+              </div>
+              
+              <div class="col-7 col-md-8" >
+                <div class="tab-content" id="v-pills-with-icon-tabContent">                
+                  <div class="collapse fade card-body bg-dark" id="{{categoria.pk}}" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
+                      {% for child in categoria.children.all %}																									
+														
+                            <div class="" style="display: flex;justify-content: flex-end;align-items: center;"> 
+                              <h6 style="border-bottom: 1px solid;justify-content: flex-start">{{child.nombre}}</h6>                                                         
+                              <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar registro">
+                                <a href="#"><i class="fa fa-edit"></i></a>
+                              </button>
+                                <form name="borrar_registro"  method="POST" action="#">
+                                {% csrf_token %}
+                                <input type="hidden" value="" name="std_id"> 
+                                <button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
+                                  <i class="fa fa-times btn-link btn-danger"></i></button>
+                                  </form>
+                              </div>
+                              													
+											
+                        {% endfor %}
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
             </div>
+          </div>
         </div>
-    </div>
-</div>
-
-
-      
-  
-
-                                   
-                                   
-                                   
-
-
-
-  <!--Modal Form cargar gastos-->
-  <div class="modal fade" id="añadircategoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Añadir Categoria</h5>            
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form method="POST" class="post-form">{% csrf_token %}
-              {{ form.as_p}}
-                            
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar</button>
-        </div>
-    </form>
       </div>
-    </div>
   </div>
-
+</div>
+{% include 'includes/modal_cargarcategoria.html' %}
 {% endblock content %} 
 
 

@@ -7,6 +7,7 @@ from .models import Profile
 # Create your views here.
 
 def login_view(request):
+    
     form = LoginForm(request.POST or None)
     msg = None
     if request.method == "POST":
@@ -15,13 +16,13 @@ def login_view(request):
             password = form.cleaned_data.get("password")
             user = authenticate(username=username, password=password)
             if user is not None:
-                login(request, user)
+                login(request, user)                                
                 return redirect("/")
             else:
-                msg = 'Credenciales invalidas'
+                msg = 'Credenciales invalidas, vuelva a intentar'
         else:
             msg = 'Error al cargar los datos. Revise su usuario y contraseña'
-
+    
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
 

@@ -13,9 +13,9 @@ urlpatterns = [
     path('cuenta/<pk>', views.CuentaDetalle.as_view(), name='cuenta_detalle'),
     path('cargar-cuenta', views.crearcuenta, name='cargar_cuentas'),
     path('editar_cuenta/<pk>', views.Editarcuenta, name="editar_cuenta"),
-    path('eliminar_cuenta/<pk>', views.Eliminarcuenta, name="eliminar_cuenta"),
-    path('cargar-subcategoria', views.Crearsubcategoria, name="cargar_subcategoria"),
+    path('eliminar_cuenta/<pk>', views.Eliminarcuenta, name="eliminar_cuenta"),    
     path('eliminar_subcategoria/<pk>', views.Editarcuenta, name="eliminar_subcategoria"),
+    path('categorias', views.CategoriaList, name='categorias'),
     path('editar_subcategoria/<pk>', views.Editarcuenta, name="editar_subcategoria"),
     
 ]

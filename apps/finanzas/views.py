@@ -175,13 +175,17 @@ def Eliminarcuenta (request, pk):
     cuenta.delete()
     return redirect('/')
 
-def Crearsubcategoria (request):     
-     categorias = Categorias.objects.filter(parent__isnull=True)
-     if request.method == 'POST':
+def CategoriaList(request):
+    categorias = Categorias.objects.filter(parent__isnull=True)
+    if request.method == 'POST':
           form = Categoriaform(request.POST)
           if form.is_valid():               
                form.save()
                return redirect('/')
-     else:
+    else:
           form = Categoriaform()
-     return render (request, 'finanzas/categorias.html',{'form':form, 'categorias':categorias})
+    return render (request, 'finanzas/categorias.html',{'formcategoria':form, 'categorias':categorias})
+    
+
+
+

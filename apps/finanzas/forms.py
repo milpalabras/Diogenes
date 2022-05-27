@@ -77,7 +77,8 @@ class Cuentaform (forms.ModelForm):
 
 
 class Categoriaform (forms.ModelForm):
-    parent = forms.ModelChoiceField(queryset=Categorias.objects.filter(parent__isnull=True), empty_label=None, widget=forms.Select(attrs={'class': 'form-control', 'placeholder':'Categoria superior'}))    
+    parent = forms.ModelChoiceField(queryset=Categorias.objects.filter(parent__isnull=True), empty_label=None, widget=forms.Select(attrs={'class': 'form-control', 'placeholder':'Categoria superior'}), label='Categoria superior')
+    tipo_de_categoria = forms.ChoiceField(choices=(('F','Gasto Fijo (Obligatorio)'), ('N','Gasto Necesario(Sobrevivencia)'), ('P', 'Gasto Prescindible(Lujo)'), ('I', 'Ingreso de dinero')),widget=forms.Select(attrs={'class': 'form-control', 'placeholder':'Categoria superior'})) 
 
     class Meta:
         model = Categorias
@@ -89,7 +90,7 @@ class Categoriaform (forms.ModelForm):
         }
 
         labels ={
-            'nombre': "Nombre de la categoria", 
+            'nombre': "Nombre de la subcategoria", 
             'parent': "Categoria Padre"
         }
 
