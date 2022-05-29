@@ -1,15 +1,16 @@
-<div class="modal fade" id="Modalcategoria" tabindex="-1" role="dialog" aria-labelledby="Modalcategoria" aria-hidden="true">
+<div class="modal fade" id="Modalnuevacategoria" tabindex="-1" role="dialog" aria-labelledby="Modalnuevacategoria" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content card">
         <div class="modal-header card-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Añadir subcategoria</h5>            
+          <h5 class="modal-title" id="exampleModalLongTitle">Añadir Cuenta</h5>            
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <form action= "{% url 'categorias' %}" method="POST" class="post-form">{% csrf_token %}
-              {{ formcategoria.as_table }}
+              {{ form.as_p}}
+              test
                             
         </div>
         <div class="modal-footer">

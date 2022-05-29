@@ -10,23 +10,13 @@
             {% include "mensajeria/sidebar.html" %}
             <div class="page-content mail-content">
                 <div class="inbox-head d-lg-flex d-block">
-                    <h3>Inbox</h3>
-                    <form action="https://themekita.com/demo-atlantis-bootstrap/livepreview/examples/demo1/email-inbox.html#" class="ml-auto">
-                        <div class="input-group">
-                            <input type="text" placeholder="Search Email" class="form-control">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fa fa-search search-icon"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
+                    <h3>Bandeja de entrada</h3>                    
                 </div>
                 <div class="inbox-body">
                     <div class="card">						
 						<div class="card-body">
 							<div class="table-responsive">
-								{% if message_list %}
+								{% if mensaje_list %}
 								<table id="add-row" class="display table table-striped table-hover" >
 									<thead>
 										<tr>
@@ -37,25 +27,25 @@
 										</tr>
 									</thead>									
 									<tbody>
-										{% for message in message_list %}
+										{% for mensaje in mensaje_list %}
 										
 										<tr>
-											<td>{{ message.sender }}</td>
+											<td>{{ mensaje.remitente }}</td>
 											<td>
-                                                {% if message.new %}<strong>{% endif %}
-                                                {% if message.replied %}<em>{% endif %}
-                                                {{ message.subject }}
-                                                {% if message.replied %}</em>{% endif %}
-                                                {% if message.new %}</strong>{% endif %}</td>
-                                                <td>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>											
+                                                {% if mensaje.nuevo %}<strong>{% endif %}
+                                                {% if message.respondido %}<em>{% endif %}
+                                                {{ mensaje.asunto }}
+                                                {% if mensaje.respondido %}</em>{% endif %}
+                                                {% if mensaje.nuevo %}</strong>{% endif %}</td>
+                                                <td>{{ mensaje.enviado_el|date:_("DATETIME_FORMAT") }}</td>											
 												<td>
 													<div class="form-button-action">
 														<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-success btn-lg" data-original-title="Ver mensaje">
-														<a href="{{ message.get_absolute_url }}"><i class="fas fa-eye btn-link btn-success"></i></a>
+														<a href="{{ mensaje.get_absolute_url }}"><i class="fas fa-eye btn-link btn-success"></i></a>
 														</button>
-														<form name="borrar_registro"  method="POST" action="{% url 'messages_delete' message.id %}">
+														<form name="borrar_registro"  method="POST" action="{% url 'messages_delete' mensaje.id %}">
 														{% csrf_token %}
-														<input type="hidden" value="{{message.id}}>" name="std_id"> 
+														<input type="hidden" value="{{mensaje.id}}>" name="std_id"> 
 														<button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar mensaje">
 															<i class="fa fa-times btn-link btn-danger"></i></button>
 														</form>

@@ -15,41 +15,9 @@ Circles.create({
 	styleText:    true
 })
 
-//Notify
-$.notify({
-	icon: 'flaticon-alarm-1',
-	title: 'Atlantis Lite',
-	message: 'Free Bootstrap 4 Admin Dashboard',
-},{
-	type: 'info',
-	placement: {
-		from: "bottom",
-		align: "right"
-	},
-	time: 1000,
-});
 
-// JQVmap
-$('#map-example').vectorMap(
-{
-	map: 'world_en',
-	backgroundColor: 'transparent',
-	borderColor: '#fff',
-	borderWidth: 2,
-	color: '#e4e4e4',
-	enableZoom: true,
-	hoverColor: '#35cd3a',
-	hoverOpacity: null,
-	normalizeFunction: 'linear',
-	scaleColors: ['#b6d6ff', '#005ace'],
-	selectedColor: '#35cd3a',
-	selectedRegions: ['ID', 'RU', 'US', 'AU', 'CN', 'BR'],
-	showTooltip: true,
-	onRegionClick: function(element, code, region)
-	{
-		return false;
-	}
-});
+
+
 
 //Chart
 $(function () {
@@ -191,10 +159,10 @@ $(function () {
 		});
 		var myLegendContainer = document.getElementById("myChartLegend");
 
-// generate HTML legend
+
 myLegendContainer.innerHTML = statisticsChart.generateLegend();
 
-// bind onClick event to all LI-tags of the legend
+
 var legendItems = myLegendContainer.getElementsByTagName('li');
 for (var i = 0; i < legendItems.length; i += 1) {
 	legendItems[i].addEventListener("click", legendClickCallback, false);
@@ -203,11 +171,6 @@ for (var i = 0; i < legendItems.length; i += 1) {
 });
 
 });
-
-
-
-
-
 
 
 var dailySalesChart = document.getElementById('dailySalesChart').getContext('2d');

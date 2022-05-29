@@ -1,0 +1,63 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Confirmacion de borrado de {{object}} {% endblock %} 
+
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        
+        <div class="row">
+            <div class="col-md-6 ml-auto mr-auto">
+                <div class="card card-primary bg-primary-gradient">
+                    <div class="card-body">                        
+                            <form  name="borrar_categoria" method="POST" class="post-form">{% csrf_token %}
+                                <p>¿Eliminar categoria <strong>{{object}}</strong>?</p>
+                                              
+                          </div>
+                          <div class="card-footer">
+                            <button type="button" class="btn btn-success" data-dismiss="modal">
+                              <a href={% url 'categorias'%}> Volver</a>
+                            </button>
+                            <button type="submit" onclick="validateForm()" class="btn btn-danger">Eliminar</button>
+                          </div>
+                      </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            
+              
+        
+        
+
+{% endblock content %}
+
+
+{% block javascripts %}
+<script>
+    function validateForm() {	
+          event.preventDefault();
+          var form = document.forms["borrar_categoria"];
+          swal({
+                 title: "¿estas seguro?",
+                 text: "Perderas las estadisticas de los registros creados con esta categoria",
+                 icon: "warning",
+                 buttons: ["No, cancelar", "Si, eliminar"],
+                 dangerMode: false,
+               })
+              .then((willDelete) => {
+                   if (willDelete) {
+                        document.forms["borrar_categoria"].submit()
+                   } else {
+                          swal("La cuenta no ha sido borrada");
+               }
+            });
+    }
+  </script>
+{% endblock javascripts %}

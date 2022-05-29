@@ -2,7 +2,7 @@
 
 {% block title %} Dashboard {% endblock %} 
 
-<!-- Specific Page CSS goes HERE  -->
+
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
@@ -15,13 +15,10 @@
 					<div>
 						<h2 class="text-white pb-2 fw-bold">Dashboard</h2>
 						<h5 class="text-white op-7 mb-2">Diogenes - Control de Gastos</h5>
-					</div>
-										
+					</div>										
 				</div>				
 			</div>			
 		</div>
-		
-
 		<div class="page-inner mt--5">
 			<div class="row row-card-no-pd ">
 				<div class="col-md-12">
@@ -30,7 +27,9 @@
 							<div class="card-head-row card-tools-still-right">
 								<h4 class="card-title">Cuentas</h4>
 								<div class="card-tools">
-										<a href="#" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#Modalnuevacuenta">nueva cuenta</a>
+									<button type="button" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#Modalnuevacuenta">
+										nueva cuenta
+									</button>										
 								</div>
 							</div>
 							<p class="card-category">
@@ -38,8 +37,7 @@
 						</div>
 						<div class="card-body">							
 							<div class="row">
-								{% include 'includes/cuentas.html' %}
-								
+								{% include 'includes/cuentas.html' %}								
 							</div>							
 						</div>
 					</div>
@@ -52,8 +50,7 @@
 						<div class="card-body">
 							<div class="card-title">Estadisticas de gastos</div>
 							<div class="card-category">Informacion de gastos ultimos 30 dias </div>
-							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4" id="circlegastos" data-url = "{% url 'circlegastos' %}">
-								
+							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4" id="circlegastos" data-url = "{% url 'circlegastos' %}">								
 									<div class="px-2 pb-2 pb-md-0 text-center">
 										<div id="necesarios" ></div>
 										<h6 class="fw-bold mt-3 mb-0">Gastos necesarios</h6>
@@ -65,8 +62,7 @@
 									<div class="px-2 pb-2 pb-md-0 text-center">
 										<div id="obligatorios"></div>
 										<h6 class="fw-bold mt-3 mb-0">Gastos obligatorios</h6>
-									</div>
-								
+									</div>								
 							</div>
 						</div>
 					</div>
@@ -152,20 +148,15 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		
-			
-			
+			</div>			
 		</div>
 	</div>
 	{% include 'includes/modal_cargarcuenta.html' %}
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
 
-	<!-- Atlantis DEMO methods, don't include it in your project! -->
-	<script src="/static/assets/js/setting-demo.js"></script>
+{% block javascripts %}	
+	
 	<script src="/static/assets/js/demo.js"></script>
 
 	<script>
@@ -262,7 +253,7 @@ $(function () {
 				scales: {
 					yAxes: [{
 						ticks: {
-							display: false //this will remove only the label
+							display: false 
 						},
 						gridLines : {
 							drawBorder: false,

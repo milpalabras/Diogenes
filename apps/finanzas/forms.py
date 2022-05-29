@@ -3,12 +3,13 @@ from django import forms
 from .models import Categorias, Registros, Cuenta
 from django.db.models import Prefetch
 
+
+
 #---------------------------------------------------------------------------------------------------------------
 
 
 
-class Gastosform(forms.ModelForm):
-    
+class Gastosform(forms.ModelForm):    
 
     class Meta:
         model = Registros
@@ -82,11 +83,12 @@ class Categoriaform (forms.ModelForm):
 
     class Meta:
         model = Categorias
-        fields = ('nombre', 'parent', 'tipo_de_categoria')
+        fields = ('nombre', 'descripcion', 'parent', 'tipo_de_categoria' )
         widgets = {
             'nombre':forms.TextInput(attrs={'class': 'form-control'}),
             'parent': forms.Select(attrs={'class': 'form-control', 'placeholder':'Categoria superior'}),
             'tipo_de_categoria': forms.Select(attrs={'class': 'form-control'}),
+            'descripcion':forms.TextInput(attrs={'class': 'form-control'}),
         }
 
         labels ={
@@ -96,7 +98,6 @@ class Categoriaform (forms.ModelForm):
 
 
 class Editarform(forms.ModelForm):
-
     class Meta:
         model = Registros
         fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria' )

@@ -11,27 +11,27 @@
             <div class="page-content mail-content">
                 <div class="email-head d-lg-flex d-block">
                     <h3>                       
-                        {{ message.subject }}
+                        {{ mensaje.subject }}
                     </h3>
                     <div class="controls mt-3 mt-lg-0">
-                        {% if message.recipient.pk == user.pk %}
-                        <a href="{% url 'messages_reply' message.id %}"><i class="fa fa-reply"></i></a>
+                        {% if mensaje.destinatario.pk == user.pk %}
+                        <a href="{% url 'messages_reply' mensaje.id %}"><i class="fa fa-reply"></i></a>
                         {% endif %}
-                        <a href="{% url 'messages_delete' message.id %}"><i class="fa fa-trash"></i></a>
+                        <a href="{% url 'messages_delete' mensaje.id %}"><i class="fa fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="email-sender">
                     <div class="avatar">
-                        <img src="{{message.sender.profile.get_avatar}}" alt="Avatar">
+                        <img src="{{mensaje.remitente.profile.get_avatar}}" alt="Avatar">
                     </div>
                     <div class="sender">
-                        <a class="from">de {{ message.sender }}</a> to <a  class="to">{{ message.recipient }}</a> 
+                        <a class="from">de {{ mensaje.remitente }}</a> para <a  class="to">{{ mensaje.destinatario }}</a> 
                         
                     </div>
-                    <div class="date">{{ message.sent_at|date:_("DATETIME_FORMAT")}}</div>
+                    <div class="date">{{ mensaje.enviado_el|date:_("DATETIME_FORMAT")}}</div>
                 </div>
                 <div class="email-body">
-                    {{ message.body|safe }}<br /><br />
+                    {{ mensaje.cuerpo|safe }}<br /><br />
                 </div>                
             </div>
         </div>

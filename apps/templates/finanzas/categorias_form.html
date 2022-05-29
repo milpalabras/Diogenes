@@ -1,0 +1,33 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Categorias {% endblock %} 
+
+
+{% block stylesheets %} {% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        
+        <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+            <div class="card card-primary bg-primary-gradient">
+                <div class="card-body">
+                    <h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Editar Categoria</h4>
+                    <form action ="" method="POST" >
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        
+                          
+                          <button type="submit" class="btn btn-primary align-right">Guardar</button>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock content %} 

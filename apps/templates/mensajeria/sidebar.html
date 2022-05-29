@@ -9,21 +9,21 @@
     </div>
     <div class="aside-compose"><a href="{% url 'messages_compose' %}" class="btn btn-secondary btn-block fw-mediumbold">Nuevo mensaje</a></div>
     <div class="aside-nav" >
-        <ul class="nav nav-primary">
-            <li class=" nav-item {% if request.path == '/inbox' %} active {% endif %}">
+        <ul class="nav navbar-nav">
+            <li class=" nav-item {% if request.path == '/mensajes/inbox/' %} active {% endif %}">
                 <a href="{% url 'messages_inbox' %}">
-                    <i class="flaticon-inbox"></i> Recibidos
+                    <i class="fas fa-inbox "></i> Recibidos
                     {% if messages_inbox_count %}<span class="badge badge-primary float-right">{{messages_inbox_count}}</span>{% endif %}
                 </a>
             </li>
-            <li class="nav-item {% if request.path == '/outbox' %} active {% endif %}">
+            <li class="nav-item {% if request.path == '/mensajes/outbox/' %} active {% endif %}">
                 <a href="{% url 'messages_outbox' %}">
                     <i class="fa fa-envelope"></i> Enviados
                 </a>
             </li>            
-            <li class="nav-item {% if request.path == '/trash' %} active {% endif %}">
+            <li class="nav-item {% if request.path == '/mensajes/trash/' %} active {% endif %}">
                 <a href="{% url 'messages_trash' %}">
-                    <i class="flaticon-interface-5"></i> Papelera
+                    <i class="fas fa-trash"></i> Papelera
                 </a>
             </li>
         </ul>        

@@ -2,27 +2,28 @@
 
 {% block title %} Categorias {% endblock %} 
 
-<!-- Css para la pagina actual -->
+
 {% block stylesheets %} {% endblock stylesheets %}
 
 {% block content %}
 <div class="content">
-    <div class="page-inner">      
+    <div class="page-inner"> 
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">Categorias</h4>
               <div style="display: flex;justify-content: flex-end;align-items: center;">
-                <a href="#" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#Modalcategoria" >añadir categoria</a>
+                <button id="crear-subcategoria" type="button"  data-toggle="modal" class="btn btn-secondary btn-round" data-target="#Modalnuevacategoria">
+                  añadir categoria</button>
               </div> 
-              
+             
           </div>
           <div class="card-body">
             <div class="row">
               {% for categoria in categorias %}
               <div class="col-5 col-md-4">
                 <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd"  role="tablist" aria-orientation="vertical">
-                  <a class="nav-link " data-toggle="collapse" href="#{{categoria.pk}}" role="tab" aria-controls="v-pills-home-nobd" aria-selected="false">{{categoria.nombre}}</a>                  
+                  <a class="nav-link " data-toggle="collapse" href="#{{categoria.pk}}" role="tab" aria-controls="v-pills-home-nobd" aria-selected="false">{{categoria.nombre}}{{categoria.pk}}</a>                  
                 </div>
               </div>
               
@@ -30,22 +31,29 @@
                 <div class="tab-content" id="v-pills-with-icon-tabContent">                
                   <div class="collapse fade card-body bg-dark" id="{{categoria.pk}}" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
                       {% for child in categoria.children.all %}																									
-														
+														<td></td>
                             <div class="" style="display: flex;justify-content: flex-end;align-items: center;"> 
-                              <h6 style="border-bottom: 1px solid;justify-content: flex-start">{{child.nombre}}</h6>                                                         
-                              <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar registro">
-                                <a href="#"><i class="fa fa-edit"></i></a>
+                              <h6 style="border-bottom: 1px solid;justify-content: flex-start">{{child.nombre}}{{child.pk}}</h6>                                                         
+                              
+                              <button type="button"  title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar subcategoria">
+                                <a href={% url 'editar_subcategoria' child.pk %}> <i class="fa fa-edit"></i></a>
                               </button>
-                                <form name="borrar_registro"  method="POST" action="#">
-                                {% csrf_token %}
-                                <input type="hidden" value="" name="std_id"> 
-                                <button type="submit" onclick="validateForm()" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
-                                  <i class="fa fa-times btn-link btn-danger"></i></button>
-                                  </form>
+                                
+                                
+                                
+                                
+                                  
+                                  <button type="button" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
+                                    <a href={% url 'eliminar_subcategoria' child.pk %}><i class="fa fa-times btn-link btn-danger"></i></a>
+                                  </button>
+
+                                    
+                                  
                               </div>
-                              													
-											
+                            
+                          
                         {% endfor %}
+                      
                   </div>
                 </div>
               </div>
@@ -56,9 +64,18 @@
       </div>
   </div>
 </div>
+
 {% include 'includes/modal_cargarcategoria.html' %}
+
 {% endblock content %} 
 
 
-<!--  JS para esta pagina  -->
-{% block javascripts %} {% endblock javascripts %}
+
+{% block javascripts %} 
+<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+
+
+
+
+{% endblock javascripts %}

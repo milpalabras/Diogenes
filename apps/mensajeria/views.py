@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.http import Http404, HttpResponseRedirect
@@ -10,102 +10,52 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.urls import reverse
 from django.conf import settings
-
-from mensajeria.models import Message
+from mensajeria.models import Mensaje
 from mensajeria.forms import ComposeForm
 from mensajeria.utils import format_quote, get_user_model, get_username_field
 
 User = get_user_model()
 
-if "pinax.notifications" in settings.INSTALLED_APPS and getattr(settings, 'DJANGO_MESSAGES_NOTIFY', True):
-    from pinax.notifications import models as notification
-else:
-    notification = None
+
 
 @login_required
-def inbox(request, template_name='mensajeria/inbox.html'):
-    """
-    Displays a list of received messages for the current user.
-    Optional Arguments:
-        ``template_name``: name of the template to use.
-    """
-    message_list = Message.objects.inbox_for(request.user)
-    return render(request, template_name, {
-        'message_list': message_list,
+def inbox(request):
+    mensaje_list = Mensaje.objects.inbox_user(request.user)
+    return render(request, 'mensajeria/inbox.html', {'mensaje_list': mensaje_list })
+
+@login_required
+def outbox(request):    
+    mensaje_list = Mensaje.objects.salida_user(request.user)
+    return render(request, 'mensajeria/outbox.html', {'mensaje_list': mensaje_list})
+
+@login_required
+def trash(request):    
+    mensaje_list = Mensaje.objects.papelera_user(request.user)
+    return render(request, 'mensajeria/trash.html', {
+        'mensaje_list': mensaje_list,
     })
 
 @login_required
-def outbox(request, template_name='mensajeria/outbox.html'):
-    """
-    Displays a list of sent messages by the current user.
-    Optional arguments:
-        ``template_name``: name of the template to use.
-    """
-    message_list = Message.objects.outbox_for(request.user)
-    return render(request, template_name, {
-        'message_list': message_list,
-    })
-
-@login_required
-def trash(request, template_name='mensajeria/trash.html'):
-    """
-    Displays a list of deleted messages.
-    Optional arguments:
-        ``template_name``: name of the template to use
-    Hint: A Cron-Job could periodicly clean up old messages, which are deleted
-    by sender and recipient.
-    """
-    message_list = Message.objects.trash_for(request.user)
-    return render(request, template_name, {
-        'message_list': message_list,
-    })
-
-@login_required
-def compose(request, recipient=None, form_class=ComposeForm,
-        template_name='mensajeria/compose.html', success_url=None,
-        recipient_filter=None):
-    """
-    Displays and handles the ``form_class`` form to compose new messages.
-    Required Arguments: None
-    Optional Arguments:
-        ``recipient``: username of a `django.contrib.auth` User, who should
-                       receive the message, optionally multiple usernames
-                       could be separated by a '+'
-        ``form_class``: the form-class to use
-        ``template_name``: the template to use
-        ``success_url``: where to redirect after successfull submission
-        ``recipient_filter``: a function which receives a user object and
-                              returns a boolean wether it is an allowed
-                              recipient or not
-
-    Passing GET parameter ``subject`` to the view allows pre-filling the
-    subject field of the form.
-    """
+def redactar(request, recipient=None,recipient_filter=None):
+   
     if request.method == "POST":
-        sender = request.user
-        form = form_class(request.POST, recipient_filter=recipient_filter)
+        remitente = request.user
+        form = ComposeForm(request.POST, recipient_filter=recipient_filter)
         if form.is_valid():
-            form.save(sender=request.user)
-            messages.info(request, _(u"Message successfully sent."))
-            if success_url is None:
-                success_url = reverse('messages_inbox')
-            if 'next' in request.GET:
-                success_url = request.GET['next']
-            return HttpResponseRedirect(success_url)
+            form.save(remitente=request.user)
+            messages.success(request, "Mensaje enviado correctamente.")            
+            return redirect('messages_inbox')
     else:
-        form = form_class(initial={"subject": request.GET.get("subject", "")})
+        form = ComposeForm(initial={"asunto": request.GET.get("asunto", "")})
         if recipient is not None:
             recipients = [u for u in User.objects.filter(**{'%s__in' % get_username_field(): [r.strip() for r in recipient.split('+')]})]
             form.fields['recipient'].initial = recipients
-    return render(request, template_name, {
-        'form': form,
-    })
+    return render(request, 'mensajeria/compose.html', {'form': form})
 
 @login_required
-def reply(request, message_id, form_class=ComposeForm,
-        template_name='mensajeria/compose.html', success_url=None,
+def reply(request, pk,          
         recipient_filter=None, quote_helper=format_quote,
-        subject_template=_(u"Re: %(subject)s"),):
+        asunto_re=_(u"Re: %(subject)s"),):
     """
     Prepares the ``form_class`` form for writing a reply to a given message
     (specified via ``message_id``). Uses the ``format_quote`` helper from
@@ -113,96 +63,66 @@ def reply(request, message_id, form_class=ComposeForm,
     assign a different ``quote_helper`` kwarg in your url-conf.
 
     """
-    parent = get_object_or_404(Message, id=message_id)
+    parent = get_object_or_404(Mensaje, id=pk)
 
-    if parent.sender != request.user and parent.recipient != request.user:
+    if parent.remitente != request.user and parent.destinatario != request.user:
         raise Http404
 
     if request.method == "POST":
-        sender = request.user
-        form = form_class(request.POST, recipient_filter=recipient_filter)
+        remitente = request.user
+        form = ComposeForm(request.POST, recipient_filter=recipient_filter)
         if form.is_valid():
-            form.save(sender=request.user, parent_msg=parent)
-            messages.info(request, _(u"Message successfully sent."))
-            if success_url is None:
-                success_url = reverse('messages_inbox')
-            return HttpResponseRedirect(success_url)
+            form.save(remitente=request.user, parent_msg=parent)
+            messages.success(request, "Mensaje enviado correctamente.")           
+            return render('messages_inbox')
     else:
-        form = form_class(initial={
-            'body': quote_helper(parent.sender, parent.body),
-            'subject': subject_template % {'subject': parent.subject},
-            'recipient': [parent.sender,]
+        form = ComposeForm(initial={
+            'cuerpo': quote_helper(parent.remitente, parent.cuerpo),
+            'asunto': asunto_re % {'subject': parent.asunto},
+            'destinatario': [parent.remitente,]
             })
-    return render(request, template_name, {
-        'form': form,
-    })
+    return render(request, 'mensajeria/compose.html', {'form': form})
 
 @login_required
-def delete(request, message_id, success_url=None):
-    """
-    Marks a message as deleted by sender or recipient. The message is not
-    really removed from the database, because two users must delete a message
-    before it's save to remove it completely.
-    A cron-job should prune the database and remove old messages which are
-    deleted by both users.
-    As a side effect, this makes it easy to implement a trash with undelete.
-
-    You can pass ?next=/foo/bar/ via the url to redirect the user to a different
-    page (e.g. `/foo/bar/`) than ``success_url`` after deletion of the message.
-    """
+def delete(request, message_id):    
     user = request.user
     now = timezone.now()
-    message = get_object_or_404(Message, id=message_id)
-    deleted = False
-    if success_url is None:
-        success_url = reverse('messages_inbox')
-    if 'next' in request.GET:
-        success_url = request.GET['next']
-    if message.sender == user:
-        message.sender_deleted_at = now
+    mensaje = get_object_or_404(Mensaje, id=message_id)
+    deleted = False   
+    if mensaje.remitente == user:
+        mensaje.remitente_borrado_el = now
         deleted = True
-    if message.recipient == user:
-        message.recipient_deleted_at = now
+    if mensaje.destinatario == user:
+        mensaje.destinatario_borrado_el = now
         deleted = True
     if deleted:
-        message.save()
-        messages.info(request, _(u"Message successfully deleted."))
-        if notification:
-            notification.send([user], "messages_deleted", {'message': message,})
-        return HttpResponseRedirect(success_url)
+        mensaje.save()
+        messages.success(request,"Mensaje eliminado correctamente.")        
+        return redirect('messages_inbox')
     raise Http404
 
 @login_required
-def undelete(request, message_id, success_url=None):
-    """
-    Recovers a message from trash. This is achieved by removing the
-    ``(sender|recipient)_deleted_at`` from the model.
-    """
+def undelete(request, message_id):    
     user = request.user
-    message = get_object_or_404(Message, id=message_id)
-    undeleted = False
-    if success_url is None:
-        success_url = reverse('messages_inbox')
-    if 'next' in request.GET:
-        success_url = request.GET['next']
-    if message.sender == user:
-        message.sender_deleted_at = None
+    mensaje = get_object_or_404(Mensaje, id=message_id)
+    undeleted = False       
+    if mensaje.remitente == user:
+        mensaje.remitente_borrado_el = None
         undeleted = True
-    if message.recipient == user:
-        message.recipient_deleted_at = None
+    if mensaje.destinatario == user:
+        mensaje.destinatario_borrado_el = None
         undeleted = True
     if undeleted:
-        message.save()
-        messages.info(request, _(u"Message successfully recovered."))
-        if notification:
-            notification.send([user], "messages_recovered", {'message': message,})
+        mensaje.save()
+        messages.success(request, "Mensaje restaurado correctamente.")
+        success_url = reverse('messages_inbox')        
         return HttpResponseRedirect(success_url)
     raise Http404
 
 @login_required
-def view(request, message_id, form_class=ComposeForm, quote_helper=format_quote,
-        subject_template=_(u"Re: %(subject)s"),
-        template_name='mensajeria/view.html'):
+def view(request, message_id, quote_helper=format_quote,
+        asunto_re=_(u"Re: %(subject)s"),
+        ):
     """
     Shows a single message.``message_id`` argument is required.
     The user is only allowed to see the message, if he is either
@@ -215,19 +135,19 @@ def view(request, message_id, form_class=ComposeForm, quote_helper=format_quote,
     """
     user = request.user
     now = timezone.now()
-    message = get_object_or_404(Message, id=message_id)
-    if (message.sender != user) and (message.recipient != user):
+    mensaje = get_object_or_404(Mensaje, pk=message_id)
+    if (mensaje.remitente != user) and (mensaje.destinatario != user):
         raise Http404
-    if message.read_at is None and message.recipient == user:
-        message.read_at = now
-        message.save()
+    if mensaje.leido_el is None and mensaje.destinatario == user:
+        mensaje.leido_el = now
+        mensaje.save()
 
-    context = {'message': message, 'reply_form': None}
-    if message.recipient == user:
-        form = form_class(initial={
-            'body': quote_helper(message.sender, message.body),
-            'subject': subject_template % {'subject': message.subject},
-            'recipient': [message.sender,]
+    context = {'mensaje': mensaje, 'reply_form': None}
+    if mensaje.destinatario == user:
+        form = ComposeForm(initial={
+            'cuerpo': quote_helper(mensaje.remitente, mensaje.cuerpo),
+            'asunto': asunto_re % {'subject': mensaje.asunto},
+            'destinatario': [mensaje.remitente,]
             })
         context['reply_form'] = form
-    return render(request, template_name, context)
+    return render(request, 'mensajeria/view.html', context)

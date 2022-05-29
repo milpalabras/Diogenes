@@ -1,15 +1,14 @@
 
 from decimal import Decimal
-from multiprocessing import context
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib import messages
-
 from .forms import Gastosform, Ingresosform, Editarform,  Cuentaform, Categoriaform
 from .models import Categorias, Cuenta, Registros
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 # Create your views here.
-
+#---------CRUD Registros-----------------
 def registros(request):
     return render (request, 'finanzas/registros.html')
 
@@ -61,7 +60,6 @@ def Cargaringresos (request):
     }
     return render (request, 'layouts/base.html', context)
 
-
 def EliminarRegistro(request, pk):
     registro = Registros.objects.get(pk=pk)
     importe = registro.importe
@@ -79,10 +77,6 @@ def EliminarRegistro(request, pk):
         monto.save()
         registro.delete()
         return redirect('registros')   
-    
-
-    return redirect('/registros')
-
 
 def EditarRegistro(request, pk):
     registro = get_object_or_404(Registros, pk=pk)
@@ -134,7 +128,7 @@ class RegistroDetalle(DetailView):
     model = Registros
     template_name = 'finanzas/registro_detalle.html'
 
-
+#---------CRUD Cuenta-----------------
 class CuentasList(ListView):
     model = Cuenta
     template_name = 'finanzas/cuentas.html'
@@ -143,49 +137,51 @@ class CuentaDetalle(DetailView):
     model = Cuenta
     template_name = 'finanzas/cuenta_detalle.html'
 
-def crearcuenta (request):
-    if request.method == 'POST':
-        form = Cuentaform(request.POST)
-        if form.is_valid():
-            nombre = form.cleaned_data.get('nombre')
-            messages.success(request, f"Nueva cuenta creada: {nombre}" )               
-            form.save()
-            return redirect('/')               
-    else:          
-        form = Cuentaform()
-    context = {'formcuentas': form}
-    return render(request, 'home/index.html', context)
+class crearcuenta (CreateView):
+    model = Cuenta
+    success_url= "cuentas"
+    fields= "__all__"    
 
-def Editarcuenta (request, pk):
-    cuenta = get_object_or_404(Cuenta, pk=pk)
-    if request.method == 'POST':
-        form = Cuentaform(request.POST, instance=cuenta)
-        if form.is_valid():
-            nombre = form.cleaned_data.get('nombre')
-            messages.success(request, f"Cuenta modificada {nombre}" )               
-            form.save()
-            return redirect('/')               
-    else:          
-        form = Cuentaform(instance=cuenta)
-    context = {'formcuentas': form}
-    return render(request, 'finanzas/cuentas.html', context)
+class Editarcuenta (UpdateView):
+    model = Cuenta
+    success_url= "/cuentas"
+    form_class = Cuentaform
 
 def Eliminarcuenta (request, pk):
     cuenta = get_object_or_404(Cuenta, pk=pk)
     cuenta.delete()
-    return redirect('/')
+    return redirect('/cuentas')
 
+#---------CRUD Categoria-----------------
 def CategoriaList(request):
     categorias = Categorias.objects.filter(parent__isnull=True)
     if request.method == 'POST':
-          form = Categoriaform(request.POST)
-          if form.is_valid():               
-               form.save()
-               return redirect('/')
+        form = Categoriaform(request.POST)
+        if form.is_valid():
+            messages.success(request, "Categoria creada")
+            form.save()
+            return redirect('/')
     else:
-          form = Categoriaform()
-    return render (request, 'finanzas/categorias.html',{'formcategoria':form, 'categorias':categorias})
+        form = Categoriaform()       
+    return render (request, 'finanzas/categorias.html',{'categorias':categorias, 'form':form})
     
+class Eliminarcategoria (DeleteView):
+    model = Categorias
+    success_url= "/categorias"
 
+def Crearsubcategoria (request):
+    if request.method == 'POST':
+        form = Categoriaform(request.POST)
+        if form.is_valid():
+            categoria = form.save(commit=False)
+            categoria.parent = request.POST['parent']
+            categoria.save()
+            return redirect('/')
+    else:
+        form = Categoriaform()
+    return render (request, 'includes/modal_cargarcategoria.html', {'form':form})
 
-
+class Editarsubcategoria (UpdateView):
+    model = Categorias
+    success_url= "/categorias"
+    form_class = Categoriaform

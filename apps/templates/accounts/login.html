@@ -2,7 +2,7 @@
 
 {% block title %} Login {% endblock title %}
 
-<!-- Specific Page CSS goes HERE  -->
+
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
@@ -81,12 +81,11 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE -->
-{% block javascripts %}<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+{% block javascripts %}
+<script src="/static/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 <script> 
     {% if messages %}
-        {% for message in messages %}
-        
+        {% for message in messages %}        
         
         swal({
             title: "¡Fantastico!",
@@ -94,10 +93,6 @@
             icon: "success",
             button: "Continuar",
           });
-        
-    
-        
-    
     
         {% endfor %}
     {% endif %}
