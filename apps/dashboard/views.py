@@ -1,12 +1,10 @@
 
-from calendar import month
-from multiprocessing import context
-from django.shortcuts import render
+
 from finanzas.models import Registros
 from django.db.models import Sum, Count, Q
-from django.db.models.functions import TruncMonth
+from django.db.models.functions import TruncMonth, TruncDay
 from django.http import JsonResponse
-from django.utils import timezone
+
 import datetime
 
 # Create your views here.
@@ -46,9 +44,9 @@ def circlegastos (request):
     porcentajeP =[]
 
     dataF.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='F').count())
-    dataN.append(Registros.objects.filter(fecha_de_pago__month='05').filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='N').count())
-    dataP.append(Registros.objects.filter(fecha_de_pago__month='05').filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='P').count())
-    dataT.append(Registros.objects.filter(fecha_de_pago__month='05').filter(tipo_de_registro="GAST").values('categoria__tipo_de_categoria').count())
+    dataN.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='N').count())
+    dataP.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='P').count())
+    dataT.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").values('categoria__tipo_de_categoria').count())
     
     #porcentajeF.append (int((dataF[0]*100)/dataT[0]))
     #porcentajeN.append (int((dataN[0]*100)/dataT[0]))
@@ -84,8 +82,34 @@ def Chartingresosgastos (request):
     return JsonResponse(data=context)
     
 
-         
-         
+def Chartingresosmensuales (request):
+    labels = []    
+    dataI = []
+    queryset = Registros.objects.filter(fecha_de_pago__month=now.month).annotate(
+        dia=TruncDay('fecha_de_pago')).values('dia').annotate(            
+            totalI = Sum('importe', filter=Q(tipo_de_registro='INGR'))
+            )
+    for entry in queryset:
+        print (entry)
+        labels.append((entry['dia']).strftime("%b"))        
+        dataI.append(entry['totalI'])
+    context = {'labels':labels, 'dataI':dataI}
+    return JsonResponse(data=context)
+
+def Chartcontingresosmensuales (request):    
+    dataI = []
+    contTOTAL =[]
+    queryset = Registros.objects.filter(fecha_de_pago__month=now.month).annotate(
+        dia=TruncDay('fecha_de_pago')).values('dia').annotate(            
+            ContI = Count('importe', filter=Q(tipo_de_registro='INGR'))
+            )
+    contTOTAL.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="INGR").filter(categoria__tipo_de_categoria='I').count())
+    for entry in queryset:
+        print (entry)
+              
+        dataI.append(entry['ContI'])
+    context = {'dataI':dataI, 'contTOTAL':contTOTAL}
+    return JsonResponse(data=context)        
     
             
             

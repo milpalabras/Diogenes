@@ -17,10 +17,12 @@ def index(request):
     cuentas = Cuenta.objects.all()
     totalanualG=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="GAST").aggregate(total=Sum('importe'))
     totalanualI=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="INGR").aggregate(total=Sum('importe'))
+    totalmensualI=Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="INGR").aggregate(total=Sum('importe'))
     
     context = {'cuentas':cuentas,
-                #'totalG':round(totalanualG['total'],2),
-                #'totalI':round(totalanualI['total'], 2),
+                'totalG':totalanualG['total'],
+                'totalI':totalanualI['total'],
+                'totalmensualI':totalmensualI['total'], 
                 'profile':profile   
     
                 }

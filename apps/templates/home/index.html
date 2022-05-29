@@ -48,7 +48,7 @@
 				<div class="col-md-6">
 					<div class="card full-height">
 						<div class="card-body">
-							<div class="card-title">Estadisticas de gastos</div>
+							<div class="card-title">Cantidad de registros de gastos</div>
 							<div class="card-category">Informacion de gastos ultimos 30 dias </div>
 							<div class="d-flex flex-wrap justify-content-around pb-2 pt-4" id="circlegastos" data-url = "{% url 'circlegastos' %}">								
 									<div class="px-2 pb-2 pb-md-0 text-center">
@@ -74,12 +74,12 @@
 							<div class="row py-3">
 								<div class="col-md-4 d-flex flex-column justify-content-around">
 									<div>
-										<h6 class="fw-bold text-uppercase text-success op-8">Ingresos totales</h6>
-										<h3 class="fw-bold">${{totalI}}</h3>
+										<h6 class="fw-bold text-uppercase text-success op-8">Ingresos totales Anual</h6>
+										<h3 class="fw-bold text-success">${{totalI}}</h3>
 									</div>
 									<div>
-										<h6 class="fw-bold text-uppercase text-danger op-8">Gastos totales</h6>
-										<h3 class="fw-bold">${{totalG}}</h3>
+										<h6 class="fw-bold text-uppercase text-danger op-8">Gastos totales Anual</h6>
+										<h3 class="fw-bold text-danger">{% if totalG %}${{totalG}}{%else%}Sin datos{%endif%}</h3>
 									</div>
 								</div>
 								<div class="col-md-8">
@@ -97,21 +97,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-head-row">
-								<div class="card-title">User Statistics</div>
-								<div class="card-tools">
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm mr-2">
-										<span class="btn-label">
-											<i class="fa fa-pencil"></i>
-										</span>
-										Export
-									</a>
-									<a href="#" class="btn btn-info btn-border btn-round btn-sm">
-										<span class="btn-label">
-											<i class="fa fa-print"></i>
-										</span>
-										Print
-									</a>
-								</div>
+								<div class="card-title">Estadisticas de gastos</div>								
 							</div>
 						</div>
 						<div class="card-body">
@@ -125,25 +111,25 @@
 				<div class="col-md-4">
 					<div class="card card-primary">
 						<div class="card-header">
-							<div class="card-title">Daily Sales</div>
-							<div class="card-category">March 25 - April 02</div>
+							<div class="card-title">Ingresos Mensuales</div>
+							<div class="card-category">Registros con la caegoria "ingresos"</div>
 						</div>
 						<div class="card-body pb-0">
 							<div class="mb-4 mt-2">
-								<h1>$4,578.58</h1>
+								<h1>${{totalmensualI}}</h1>
 							</div>
 							<div class="pull-in">
-								<canvas id="dailySalesChart"></canvas>
+								<canvas id="ingresosmensuales" data-url ="{% url 'Chartingresosmensuales' %}"></canvas>
 							</div>
 						</div>
 					</div>
 					<div class="card">
 						<div class="card-body pb-0">
-							<div class="h1 fw-bold float-right text-warning">+7%</div>
-							<h2 class="mb-2">213</h2>
-							<p class="text-muted">Transactions</p>
+							<div class="h1 fw-bold float-right text-warning">Cont</div>
+							<h2 class="mb-2 text-warning">Cantidad ingresos</h2>
+							<p class="text-muted">informacion de este mes</p>
 							<div class="pull-in sparkline-fix">
-								<div id="lineChart"></div>
+								<div id="contingresos" data-url ="{% url 'Chartcontingresosmensuales' %}"></div>
 							</div>
 						</div>
 					</div>
@@ -159,8 +145,7 @@
 	
 	<script src="/static/assets/js/demo.js"></script>
 
-	<script>
-			
+	<script>			
 		
 		$(function () {
 
@@ -232,13 +217,13 @@ $(function () {
 			data: {
 				labels: data.labels,
 				datasets : [{
-					label: "Total Income",
+					label: "Ingreso Total",
 					backgroundColor: '#31ce36',
 					borderColor: 'rgb(23, 125, 255)',
 					data: data.dataI
 				},
 				{
-					label: "Total Outcome",
+					label: "Gasto Total",
 					backgroundColor: '#f25961',
 					borderColor: 'rgb(23, 125, 255)',
 					data: data.dataG
@@ -273,9 +258,16 @@ $(function () {
 
 });
 
-});
+});		
+		
+	$(function () {
 
-		$('#lineChart').sparkline([105,103,123,100,95,105,115], {
+		var $contingresos = $("#contingresos");
+		$.ajax({
+		  url: $contingresos.data("url"),
+		  success: function (data) {
+
+		$('#contingresos').sparkline(data.dataI, {
 			type: 'line',
 			height: '70',
 			width: '100%',
@@ -283,6 +275,194 @@ $(function () {
 			lineColor: '#ffa534',
 			fillColor: 'rgba(255, 165, 52, .14)'
 		});
-	</script>
+	}
+
+});
+
+});
+
+
+$(function () {
+		var $ingresosmensuales = $("#ingresosmensuales");
+		$.ajax({
+		url: $ingresosmensuales.data("url"),
+		success: function (data) {
+			var ctx = $ingresosmensuales[0].getContext('2d');
+		
+		new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: data.labels,
+				datasets:[ {
+					label: "Ingreso", 
+					fill: !0, 
+					backgroundColor: "rgba(255,255,255,0.2)", 
+					borderColor: "#fff", 
+					borderCapStyle: "butt", 
+					borderDash: [], 
+					borderDashOffset: 0, 
+					pointBorderColor: "#fff", 
+					pointBackgroundColor: "#fff", 
+					pointBorderWidth: 1, 
+					pointHoverRadius: 5, 
+					pointHoverBackgroundColor: "#fff", 
+					pointHoverBorderColor: "#fff", 
+					pointHoverBorderWidth: 1, 
+					pointRadius: 1, 
+					pointHitRadius: 5, 
+					data: data.dataI,
+				}]
+			},
+			options : {
+				maintainAspectRatio:!1, legend: {
+					display: !1
+				}
+				, animation: {
+					easing: "easeInOutBack"
+				}
+				, scales: {
+					yAxes:[ {
+						display:!1, ticks: {
+							fontColor: "rgba(0,0,0,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
+						}
+						, gridLines: {
+							drawTicks: !1, display: !1
+						}
+					}
+					], xAxes:[ {
+						display:!1, gridLines: {
+							zeroLineColor: "transparent"
+						}
+						, ticks: {
+							padding: -20, fontColor: "rgba(255,255,255,0.2)", fontStyle: "bold"
+						}
+					}
+					]
+				}
+			}
+		});	
+	}
+
+});
+
+});
+		
+		  
+		$(function () {
+		
+			var $statisticsChart = $("#statisticsChart");
+			$.ajax({
+			url: $statisticsChart.data("url"),
+			success: function (data) {	
+		
+				var ctx = document.getElementById('statisticsChart').getContext('2d');
+		
+				 var statisticsChart = new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: data.labels,
+						datasets: [ {
+							label: "Gastos Fijos",
+							borderColor: '#f3545d',
+							pointBackgroundColor: 'rgba(243, 84, 93, 0.6)',
+							pointRadius: 0,
+							backgroundColor: 'rgba(243, 84, 93, 0.4)',
+							legendColor: '#f3545d',
+							fill: true,
+							borderWidth: 2,
+							data: data.dataF
+						}, {
+							label: "Gastos Necesarios",
+							borderColor: '#fdaf4b',
+							pointBackgroundColor: 'rgba(253, 175, 75, 0.6)',
+							pointRadius: 0,
+							backgroundColor: 'rgba(253, 175, 75, 0.4)',
+							legendColor: '#fdaf4b',
+							fill: true,
+							borderWidth: 2,
+							data: data.dataN
+						}, {
+							label: "Gastos Prescindibles",
+							borderColor: '#177dff',
+							pointBackgroundColor: 'rgba(23, 125, 255, 0.6)',
+							pointRadius: 0,
+							backgroundColor: 'rgba(23, 125, 255, 0.4)',
+							legendColor: '#177dff',
+							fill: true,
+							borderWidth: 2,
+							data: data.dataP
+						}]
+					},
+					options : {
+						responsive: true, 
+						maintainAspectRatio: false,
+						legend: {
+							display: false
+						},
+						tooltips: {
+							bodySpacing: 4,
+							mode:"nearest",
+							intersect: 0,
+							position:"nearest",
+							xPadding:10,
+							yPadding:10,
+							caretPadding:10
+						},
+						layout:{
+							padding:{left:5,right:5,top:15,bottom:15}
+						},
+						scales: {
+							yAxes: [{
+								ticks: {
+									fontStyle: "500",
+									beginAtZero: false,
+									maxTicksLimit: 5,
+									padding: 10
+								},
+								gridLines: {
+									drawTicks: false,
+									display: false
+								}
+							}],
+							xAxes: [{
+								gridLines: {
+									zeroLineColor: "transparent"
+								},
+								ticks: {
+									padding: 10,
+									fontStyle: "500"
+								}
+							}]
+						}, 
+						legendCallback: function(chart) { 
+							var text = []; 
+							text.push('<ul class="' + chart.id + '-legend html-legend">'); 
+							for (var i = 0; i < chart.data.datasets.length; i++) { 
+								text.push('<li><span style="background-color:' + chart.data.datasets[i].legendColor + '"></span>'); 
+								if (chart.data.datasets[i].label) { 
+									text.push(chart.data.datasets[i].label); 
+								} 
+								text.push('</li>'); 
+							} 
+							text.push('</ul>'); 
+							return text.join(''); 
+						}  
+					}
+				});
+				var myLegendContainer = document.getElementById("myChartLegend");
+		
+		
+		myLegendContainer.innerHTML = statisticsChart.generateLegend();
+		
+		
+		var legendItems = myLegendContainer.getElementsByTagName('li');
+		for (var i = 0; i < legendItems.length; i += 1) {
+			legendItems[i].addEventListener("click", legendClickCallback, false);
+		}
+			}
+		});
+		
+		});
+</script>
 
 {% endblock javascripts %}
