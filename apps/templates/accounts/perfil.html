@@ -102,8 +102,9 @@
 										<button class="btn btn-primary "  data-toggle="modal" data-target="#editarperfil">
                                             <i class="fas fa-edit"></i>
                                             Modificar datos de perfil
-                                        </button>									
+                                        </button>																		
 									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -122,28 +123,15 @@
 										<div>{{profile.celular}}</div>
 										<div class ="about_me">{{profile.sobre_mi}}</div>										
 										<div>
-											<a href="" class="btn btn-secondary btn-block">Mensajes</a>
+											<a href="{% url 'messages_inbox'%}" class="btn btn-secondary btn-block">Mensajes</a>
 										</div>
 									</div>
-								</div>
-								<div class="card-footer">
-									<div class="row user-stats text-center">
-										<div class="col">
-											<div class="number">125</div>
-											<div class="title">Post</div>
-										</div>
-										<div class="col">
-											<div class="number">25K</div>
-											<div class="title">Followers</div>
-										</div>
-										<div class="col">
-											<div class="number">134</div>
-											<div class="title">Following</div>
-										</div>
-									</div>
-								</div>
+								</div>					
 							</div>
-						</div>
+							<div class ="row">
+								<a href="{% url 'cambiar_password'%}" class="btn btn-primary btn-block">Cambiar password</a>
+							</div>		
+						</div>						
 					</div> 
             
 </div>

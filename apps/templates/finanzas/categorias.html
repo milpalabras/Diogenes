@@ -10,12 +10,16 @@
     <div class="page-inner"> 
       <div class="col-md-6">
         <div class="card">
-          <div class="card-header">
+          <div class="card-header"><div class="card-head-row card-tools-still-right">
             <h4 class="card-title">Categorias</h4>
-              <div style="display: flex;justify-content: flex-end;align-items: center;">
-                <button id="crear-subcategoria" type="button"  data-toggle="modal" class="btn btn-secondary btn-round" data-target="#Modalnuevacategoria">
-                  añadir categoria</button>
-              </div> 
+            <div class="card-tools">
+              <button id="crear-subcategoria" type="button" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#Modalnuevacategoria">
+                añadir subcategoria
+              </button>										
+            </div>
+          </div>		  
+
+              
              
           </div>
           <div class="card-body">
@@ -23,7 +27,7 @@
               {% for categoria in categorias %}
               <div class="col-5 col-md-4">
                 <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd"  role="tablist" aria-orientation="vertical">
-                  <a class="nav-link " data-toggle="collapse" href="#{{categoria.pk}}" role="tab" aria-controls="v-pills-home-nobd" aria-selected="false">{{categoria.nombre}}{{categoria.pk}}</a>                  
+                  <a class="nav-link active card-header" data-toggle="collapse" href="#{{categoria.pk}}" role="tab" aria-controls="v-pills-home-nobd" aria-selected="true">{{categoria.nombre}}</a>                  
                 </div>
               </div>
               
@@ -32,20 +36,21 @@
                   <div class="collapse fade card-body bg-dark" id="{{categoria.pk}}" role="tabpanel" aria-labelledby="v-pills-home-tab-nobd">
                       {% for child in categoria.children.all %}																									
 														<td></td>
-                            <div class="" style="display: flex;justify-content: flex-end;align-items: center;"> 
-                              <h6 style="border-bottom: 1px solid;justify-content: flex-start">{{child.nombre}}{{child.pk}}</h6>                                                         
-                              
-                              <button type="button"  title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar subcategoria">
-                                <a href={% url 'editar_subcategoria' child.pk %}> <i class="fa fa-edit"></i></a>
-                              </button>
-                                
-                                
-                                
-                                
-                                  
+                            <div class="card-header" > 
+                              <div class="card-head-row card-tools-still-right">
+                                <h4 class="card-title">{{child.nombre}}</h4>
+                                <div class="card-tools">
+                                  <button type="button"  title="" class="btn btn-link btn-primary btn-lg"  data-original-title="Editar subcategoria">
+                                    <a href={% url 'editar_subcategoria' child.pk %}> <i class="fa fa-edit"></i></a>
+                                  </button>
                                   <button type="button" class="btn btn-link btn-danger" data-toggle="tooltip" data-original-title="Eliminar registro">
                                     <a href={% url 'eliminar_subcategoria' child.pk %}><i class="fa fa-times btn-link btn-danger"></i></a>
-                                  </button>
+                                  </button>								
+                                </div>
+                              </div>		  
+                                                               
+                                  
+                                
 
                                     
                                   

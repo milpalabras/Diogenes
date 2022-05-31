@@ -9,7 +9,7 @@
 
 <div class="page-inner">
     <div class="page-header">
-        <h3 class="page-title ">Login</h3>
+        <h3 class="page-title text-center">Login de usuario</h3>
         
     </div>
     <div class="row">
@@ -62,10 +62,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-action ">
-                        <button type="submit" class=" btn btn-success ">Ingresar</button>
+                    <div class="card-action login-account">
+                        <button type="submit" class=" btn btn-primary btn-block btn-rounded">Ingresar</button>
                         &nbsp; &nbsp;
-                        <span>¿aun no estas registrado?</span>  <a href="{% url 'register' %}" >Registrate</a>
+                          <div class="row login-account">
+                            <span>¿Aun no estas registrado? </span>
+                            <a href="{% url 'register' %}" >&nbsp; Registrate</a>
+                        </div>
                     </div>
 
                 </form>

@@ -18,16 +18,20 @@ def index(request):
     totalanualG=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="GAST").aggregate(total=Sum('importe'))
     totalanualI=Registros.objects.filter(fecha_de_pago__year=now.year).filter(tipo_de_registro="INGR").aggregate(total=Sum('importe'))
     totalmensualI=Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="INGR").aggregate(total=Sum('importe'))
-    
+    contTOTAL=(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="INGR").filter(categoria__tipo_de_categoria='I').count())
     context = {'cuentas':cuentas,
                 'totalG':totalanualG['total'],
                 'totalI':totalanualI['total'],
                 'totalmensualI':totalmensualI['total'], 
+                'contTOTAL':contTOTAL,
                 'profile':profile   
     
                 }
 
     return render(request, 'home/index.html', context)
+
+def acerca_de_mi(request):
+    return render(request, 'home/acerca_de_mi.html')
     
 
 

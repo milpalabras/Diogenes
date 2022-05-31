@@ -1,0 +1,151 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+
+{% block title %}- Sobre mi {% endblock %} 
+
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content">
+	<div class="page-inner">
+		<div class="page-header">
+			<h4 class="page-title">Diogenes y yo</h4>			
+		</div>
+		
+			
+		
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="card-title"></h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-12 col-md-3">
+								<div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd nav-pills-icons" id="v-pills-tab-with-icon" role="tablist" aria-orientation="vertical">
+									<a class="nav-link active" id="v-pills-home-tab-icons" data-toggle="pill" href="#v-pills-home-icons" role="tab" aria-controls="v-pills-home-icons" aria-selected="true">
+										<i class="flaticon-user-1"></i>
+										Sobre mi
+									</a>
+									<a class="nav-link" id="v-pills-profile-tab-icons" data-toggle="pill" href="#v-pills-profile-icons" role="tab" aria-controls="v-pills-profile-icons" aria-selected="false">
+										<i class="flaticon-graph-2"></i>
+										Sobre el proyecto
+									</a>
+									<a class="nav-link" id="v-pills-profile-tab-icons" data-toggle="pill" href="#que-sigue" role="tab" aria-controls="que-sigue" aria-selected="false">
+										<i class="flaticon-list"></i>
+										Que sigue
+									</a><a class="nav-link" id="v-pills-profile-tab-icons" data-toggle="pill" href="#contacto" role="tab" aria-controls="contacto" aria-selected="false">
+										<i class="flaticon-envelope-1"></i>
+										Contacto
+									</a>
+								</div>
+							</div>
+							<div class="col-12 col-md-9">
+								<div class="tab-content" id="v-pills-with-icon-tabContent">
+									<div class="tab-pane fade show active" id="v-pills-home-icons" role="tabpanel" aria-labelledby="v-pills-home-tab-icons">
+										<h5 class="mt-3"> Quien soy</h5>
+										<p>Me llamo Sergio, soy diseñador de imagen y sonido y un entusiasta de la tecnologia.
+											Desde temprana edad me gusta la tecnologia y la programacion.
+										</p>
+										<p>
+											Algunos de mis hobbies son la programación, el mundo DIY, Arduino, carpintería, luthería, música, mecánica, 
+											electrónica y... algunas cosas más.
+											Formalmente soy diseñador audiovisual y diseñador UX/UI. Pero, por sobre todo, soy curioso.
+										</p>
+
+										<p>Soy autodidacta en mi aprendizaje y me encanta encarar proyectos que requieran nuevos conocimientos</p>
+																												</div>
+									<div class="tab-pane fade" id="v-pills-profile-icons" role="tabpanel" aria-labelledby="v-pills-profile-tab-icons">
+										<h5 class="mt-3"> Diogenes</h5>
+										<p>Diogenes nace de la idea de tener un sistema de uso personal para poder cotizar mejor los trabajos "Freelance" que suelo
+											encarar. Es po eso que necesitaba antes que nada saber cuales eran mis costos fijos para calcular el precio de los trabajos.
+										</p>
+										<p>En esta primera instancia, a modo de MVP, el sistema permite ingresar los gastos ya categorizados para luego poder agruparlos, y en base a
+											eso tener una informacion mas detallada de los gastos.
+										</p>
+										<p>
+											Esta realziado en Django nativo y html 5, css 3, javascript, jquery, bootstrap, fontawesome, etc. como frontend.
+											Para el dashboard, se utiliza el sparkline, chartjs, circle progress, etc.
+										</p>
+										<p>
+											Dioegenes tambien cuenta con una app de servicio de mensajeria para que los usuarios puedan enviarse mensajes entre si (user to user)
+										</p>
+									</div>
+									<div class="tab-pane fade" id="que-sigue" role="tabpanel" aria-labelledby="que-sigue">
+										<h5 class="mt-3"> ToDo List</h5>
+										<ul>
+											<li>
+												<p>
+													<i class="fa fa-check-circle"></i>
+													Vinculación de app Finanzas con usuario
+												</p>
+											</li>
+											<li>
+												<p>
+													<i class="fa fa-check-circle"></i>
+													Creacion de modelos para registrar clientes
+												</p>
+											</li>
+											<li>
+												<p>
+													<i class="fa fa-check-circle"></i>
+													App para presupuestar
+												</p>
+											</li>
+											<li>
+												<p>
+													<i class="fa fa-check-circle"></i>
+													App para proyectos
+												</p>
+											</li>
+
+										</ul>
+									</div>
+									<div class="tab-pane fade" id="contacto" role="tabpanel" aria-labelledby="contacto">
+										<h5 class="mt-3"> Como contactarme</h5>
+										<p>
+											Puedes contactarme a traves de los siguientes medios:
+										</p>
+										<ul>	
+											<li>
+												<p>
+													<i class="fas fa-envelope"></i>
+													Email: <a href="mailto:sergio.milpalabras@gmail.com">sergio.milpalabras@gmail.com</a>
+												</p>
+											</li>
+											<li>
+												<p>
+													<i class="fab fa-github"></i>
+													Email: <a href="https://github.com/milpalabras">milpalabras</a>
+												</p>
+											</li>
+											<li>
+												<p>
+													<i class="fas fa-globe"></i>
+													Email: <a href="https://sergiomilpalabras.myportfolio.com/">Portfolio</a>
+												</p>
+											</li>
+											
+
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		
+	</div>
+</div>
+
+
+
+    
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

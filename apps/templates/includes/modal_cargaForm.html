@@ -22,15 +22,12 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" id="gastos-tab" data-toggle="pill" href="#gastos" role="tab" aria-controls="gastos" aria-selected="false">Gasto</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="transferencia-tab" data-toggle="pill" href="#transferencia" role="tab" aria-controls="transferencia" aria-selected="false">Transferencia</a>
-            </li>
+            </li>            
           </ul>
           
           <div class="tab-content mt-2 mb-3" id="pills-tabContent">
             
-            <div class="tab-pane fade show active" id="ingreso" role="tabpanel" aria-labelledby="ingreso-tab">
+            <div class="tab-pane fade show active " id="ingreso" role="tabpanel" aria-labelledby="ingreso-tab">
               <form action ="{% url 'cargar_ingresos' %}" method="POST" class="post-form">
                 {% csrf_token %}
                 {{formingresos.as_p}}
@@ -41,8 +38,7 @@
               </form>
             </div>
             
-            <div class="tab-pane fade" id="gastos" role="tabpanel" aria-labelledby="gastos-tab">
-              
+            <div class="tab-pane fade" id="gastos" role="tabpanel" aria-labelledby="gastos-tab">              
               <form action ="{% url 'cargar_gastos' %}" method="POST" class="post-form">
                 {% csrf_token %}
                 {{formgastos.as_p}}
@@ -52,13 +48,6 @@
                 </div>
               </form>
             </div>
-            
-            <div class="tab-pane fade" id="transferencia" role="tabpanel" aria-labelledby="transferencia-tab">
-              
-
-              
-            </div>
-
           </div>
 			</div>
 		</div>

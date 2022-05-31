@@ -4,12 +4,12 @@ from finanzas.models import Registros
 from django.db.models import Sum, Count, Q
 from django.db.models.functions import TruncMonth, TruncDay
 from django.http import JsonResponse
-
+from django.contrib.auth.decorators import login_required
 import datetime
 
 # Create your views here.
-
 now=datetime.datetime.now()
+@login_required
 def ChartbarrasFNP (request):
     labels = []
     dataF = []
@@ -32,7 +32,7 @@ def ChartbarrasFNP (request):
 
     return JsonResponse ( data = context)
 
-
+@login_required
 def circlegastos (request):
     
     dataF = []
@@ -48,16 +48,15 @@ def circlegastos (request):
     dataP.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='P').count())
     dataT.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").values('categoria__tipo_de_categoria').count())
     
-    #porcentajeF.append (int((dataF[0]*100)/dataT[0]))
-    #porcentajeN.append (int((dataN[0]*100)/dataT[0]))
-    #porcentajeP.append (int((dataP[0]*100)/dataT[0]))
+    porcentajeF.append (int((dataF[0]*100)/dataT[0]))
+    porcentajeN.append (int((dataN[0]*100)/dataT[0]))
+    porcentajeP.append (int((dataP[0]*100)/dataT[0]))
     
     
     context = {'dataF':dataF, 'dataN':dataN, 'dataP':dataP, 'dataT':dataT, 'porcentajeF':porcentajeF, 'porcentajeN':porcentajeN, 'porcentajeP':porcentajeP}
     return JsonResponse ( data = context)
 
-
-    
+@login_required    
 def Chartingresosgastos (request):
     labels = []
     dataG =[]
@@ -79,9 +78,9 @@ def Chartingresosgastos (request):
     
 
     context = {'labels':labels, 'dataG':dataG, 'dataI':dataI}
-    return JsonResponse(data=context)
-    
+    return JsonResponse(data=context)    
 
+@login_required
 def Chartingresosmensuales (request):
     labels = []    
     dataI = []
@@ -96,6 +95,7 @@ def Chartingresosmensuales (request):
     context = {'labels':labels, 'dataI':dataI}
     return JsonResponse(data=context)
 
+@login_required
 def Chartcontingresosmensuales (request):    
     dataI = []
     contTOTAL =[]

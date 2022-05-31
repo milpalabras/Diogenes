@@ -6,12 +6,17 @@ from .forms import Gastosform, Ingresosform, Editarform,  Cuentaform, Categoriaf
 from .models import Categorias, Cuenta, Registros
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
 #---------CRUD Registros-----------------
+@login_required
 def registros(request):
     return render (request, 'finanzas/registros.html')
 
+@login_required
 def Cargargastos (request):
     if request.method == 'POST':
         form = Gastosform(request.POST)
@@ -35,6 +40,7 @@ def Cargargastos (request):
      
     return render (request, 'layouts/base.html', context)
 
+@login_required
 def Cargaringresos (request):
     if request.method == 'POST':
         form = Ingresosform(request.POST)
@@ -60,24 +66,30 @@ def Cargaringresos (request):
     }
     return render (request, 'layouts/base.html', context)
 
+@login_required
 def EliminarRegistro(request, pk):
     registro = Registros.objects.get(pk=pk)
     importe = registro.importe
     cuenta = registro.cuenta_id
-    monto = Cuenta.objects.get(pk=cuenta)
-    tipo = registro.tipo_de_registro
-    if tipo == 'GAST' :
-        monto.monto += importe
-        monto.save()
-        registro.delete()
-        
-        return redirect ('registros')
+    if cuenta != None:
+        monto = Cuenta.objects.get(pk=cuenta)
+        tipo = registro.tipo_de_registro
+        if tipo == 'GAST' :
+            monto.monto += importe
+            monto.save()
+            registro.delete()
+            
+            return redirect ('registros')
+        else:
+            monto.monto -= importe
+            monto.save()
+            registro.delete()
+            return redirect('registros') 
     else:
-        monto.monto -= importe
-        monto.save()
         registro.delete()
-        return redirect('registros')   
+        return redirect('registros')  
 
+@login_required
 def EditarRegistro(request, pk):
     registro = get_object_or_404(Registros, pk=pk)
     tipo = registro.tipo_de_registro
@@ -120,39 +132,41 @@ def EditarRegistro(request, pk):
 
     return render (request, 'finanzas\editar_registro.html', context)
 
-class RegistrosList(ListView):
+class RegistrosList(LoginRequiredMixin,ListView):
     model = Registros
     template_name = 'finanzas/registros.html'
 
-class RegistroDetalle(DetailView):
+class RegistroDetalle(LoginRequiredMixin,DetailView):
     model = Registros
     template_name = 'finanzas/registro_detalle.html'
 
 #---------CRUD Cuenta-----------------
-class CuentasList(ListView):
+class CuentasList(LoginRequiredMixin,ListView):
     model = Cuenta
     template_name = 'finanzas/cuentas.html'
 
-class CuentaDetalle(DetailView):
+class CuentaDetalle(LoginRequiredMixin,DetailView):
     model = Cuenta
     template_name = 'finanzas/cuenta_detalle.html'
 
-class crearcuenta (CreateView):
+class crearcuenta (LoginRequiredMixin,CreateView):
     model = Cuenta
     success_url= "cuentas"
     fields= "__all__"    
 
-class Editarcuenta (UpdateView):
+class Editarcuenta (LoginRequiredMixin,UpdateView):
     model = Cuenta
     success_url= "/cuentas"
     form_class = Cuentaform
 
+@login_required
 def Eliminarcuenta (request, pk):
     cuenta = get_object_or_404(Cuenta, pk=pk)
     cuenta.delete()
     return redirect('/cuentas')
 
 #---------CRUD Categoria-----------------
+@login_required
 def CategoriaList(request):
     categorias = Categorias.objects.filter(parent__isnull=True)
     if request.method == 'POST':
@@ -165,10 +179,11 @@ def CategoriaList(request):
         form = Categoriaform()       
     return render (request, 'finanzas/categorias.html',{'categorias':categorias, 'form':form})
     
-class Eliminarcategoria (DeleteView):
+class Eliminarcategoria (LoginRequiredMixin,DeleteView):
     model = Categorias
     success_url= "/categorias"
 
+@login_required
 def Crearsubcategoria (request):
     if request.method == 'POST':
         form = Categoriaform(request.POST)
@@ -181,7 +196,7 @@ def Crearsubcategoria (request):
         form = Categoriaform()
     return render (request, 'includes/modal_cargarcategoria.html', {'form':form})
 
-class Editarsubcategoria (UpdateView):
+class Editarsubcategoria (LoginRequiredMixin,UpdateView):
     model = Categorias
     success_url= "/categorias"
     form_class = Categoriaform
