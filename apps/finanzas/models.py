@@ -3,7 +3,6 @@ from pickle import TRUE
 from django.core.validators import MinValueValidator
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
-from colorfield.fields import ColorField
 from datetime import date
 from django.utils.translation import gettext_lazy as _
 
@@ -73,4 +72,4 @@ class Registros (models.Model):
     class Meta:
         verbose_name_plural = "Registros"
     def __str__(self):
-        return self.tipo_de_registro.label
+        return self.get_tipo_de_registro_display() + " - " + str(self.importe) + " - " + str(self.fecha_de_pago)

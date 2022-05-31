@@ -52,10 +52,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-_el repositorio cuenta con archivo de categorias ya creadas(categorias.json). Para utilizarlo ejecuta_
-```
-python manage.py loaddata categorias.json
-```
+
 
 _Inicia el servidor_
 ```

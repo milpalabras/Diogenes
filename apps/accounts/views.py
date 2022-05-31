@@ -5,6 +5,8 @@ from .forms import LoginForm, SignUpForm, ProfileForm, CambiarpasswordForm
 from django.contrib import messages
 from .models import Profile
 from django.contrib.auth.decorators import login_required
+from finanzas.models import Cuenta, Categorias
+from django.core import management
 # Create your views here.
 
 def login_view(request):
@@ -39,6 +41,13 @@ def register_user(request):
             user = authenticate(username=username, password=raw_password)
             success = True
             messages.success(request, f"Nueva cuenta creada: {username}" )
+            cuenta_inicial=Cuenta.objects.all()
+            categorias_inicial=Categorias.objects.all()
+            if (not cuenta_inicial)  and (not categorias_inicial):
+                management.call_command('loaddata', 'categorias.json')
+                cuenta_inicial = Cuenta(nombre="Cuenta Inicial", monto=0, tipo_de_cuenta="GRAL")
+                cuenta_inicial.save()
+            
             msg = 'Usuario creado - Dirigase al <a href="/login">login</a>.'
             
             return redirect("/login/")
