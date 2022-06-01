@@ -43,10 +43,11 @@ def register_user(request):
             messages.success(request, f"Nueva cuenta creada: {username}" )
             cuenta_inicial=Cuenta.objects.all()
             categorias_inicial=Categorias.objects.all()
-            if (not cuenta_inicial)  and (not categorias_inicial):
-                management.call_command('loaddata', 'categorias.json')
+            if (not cuenta_inicial):                
                 cuenta_inicial = Cuenta(nombre="Cuenta Inicial", monto=0, tipo_de_cuenta="GRAL")
                 cuenta_inicial.save()
+            if (not categorias_inicial):
+               management.call_command('loaddata', 'categorias.json')
             
             msg = 'Usuario creado - Dirigase al <a href="/login">login</a>.'
             

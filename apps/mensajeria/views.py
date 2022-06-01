@@ -56,13 +56,7 @@ def redactar(request, recipient=None,recipient_filter=None):
 def reply(request, pk,          
         recipient_filter=None, quote_helper=format_quote,
         asunto_re=_(u"Re: %(subject)s"),):
-    """
-    Prepares the ``form_class`` form for writing a reply to a given message
-    (specified via ``message_id``). Uses the ``format_quote`` helper from
-    ``messages.utils`` to pre-format the quote. To change the quote format
-    assign a different ``quote_helper`` kwarg in your url-conf.
-
-    """
+    
     parent = get_object_or_404(Mensaje, id=pk)
 
     if parent.remitente != request.user and parent.destinatario != request.user:
@@ -123,16 +117,7 @@ def undelete(request, message_id):
 def view(request, message_id, quote_helper=format_quote,
         asunto_re=_(u"Re: %(subject)s"),
         ):
-    """
-    Shows a single message.``message_id`` argument is required.
-    The user is only allowed to see the message, if he is either
-    the sender or the recipient. If the user is not allowed a 404
-    is raised.
-    If the user is the recipient and the message is unread
-    ``read_at`` is set to the current datetime.
-    If the user is the recipient a reply form will be added to the
-    tenplate context, otherwise 'reply_form' will be None.
-    """
+   
     user = request.user
     now = timezone.now()
     mensaje = get_object_or_404(Mensaje, pk=message_id)

@@ -28,7 +28,7 @@
                         <a class="from">de {{ mensaje.remitente }}</a> para <a  class="to">{{ mensaje.destinatario }}</a> 
                         
                     </div>
-                    <div class="date">{{ mensaje.enviado_el|date:_("DATETIME_FORMAT")}}</div>
+                    <div class="date">{{ mensaje.enviado_el |date:_("DATETIME_FORMAT")}}</div>
                 </div>
                 <div class="email-body">
                     {{ mensaje.cuerpo|safe }}<br /><br />

@@ -52,14 +52,20 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-
-
 _Inicia el servidor_
 ```
 python manage.py runserver
 ```
 
 _Accede al servidor a traves de la url http://127.0.0.1:8000/_
+
+## Registros de ejemplo
+
+_En caso de querer importar registros a la base de datos, existe una archivo .json en el repositorio con datos ficticios_
+_Ejecuta el siguiente codigo para importarlos_
+```
+python manage.py loaddata registros_de_ejemplo.json
+```
 
 ## Estructura del proyecto ⚙️
 

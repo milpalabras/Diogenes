@@ -1,0 +1,405 @@
+[
+{
+  "model": "finanzas.registros",
+  "pk": 9,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "120.00",
+    "nota": "Sueldo",
+    "fecha_de_pago": "2022-02-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 10,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "120000.00",
+    "nota": "Sueldo",
+    "fecha_de_pago": "2022-02-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 11,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "120000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-03-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 12,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "120000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 13,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "30000.00",
+    "nota": "milpalabras",
+    "fecha_de_pago": "2022-02-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 20,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "20000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-05",
+    "categoria": 24,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 21,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "5000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-26",
+    "categoria": 28,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 22,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "800.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-18",
+    "categoria": 31,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 23,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "1500.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-26",
+    "categoria": 47,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 24,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "40000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-02-05",
+    "categoria": 24,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 25,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "4500.72",
+    "nota": null,
+    "fecha_de_pago": "2022-02-01",
+    "categoria": 13,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 26,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "458.23",
+    "nota": null,
+    "fecha_de_pago": "2022-02-05",
+    "categoria": 11,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 27,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "450.00",
+    "nota": null,
+    "fecha_de_pago": "2022-02-25",
+    "categoria": 48,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 28,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "45000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-03-01",
+    "categoria": 24,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 29,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "45720.82",
+    "nota": null,
+    "fecha_de_pago": "2022-04-06",
+    "categoria": 24,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 30,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "45000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-31",
+    "categoria": 24,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 31,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "1500.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-18",
+    "categoria": 48,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 32,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "6000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-12",
+    "categoria": 13,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 33,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "15000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-05",
+    "categoria": 37,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 34,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "1500.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-15",
+    "categoria": 12,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 35,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "562.00",
+    "nota": null,
+    "fecha_de_pago": "2022-01-25",
+    "categoria": 21,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 36,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "6000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-02-18",
+    "categoria": 21,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 37,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "10000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-03-12",
+    "categoria": 13,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 38,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "15000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-04-12",
+    "categoria": 13,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 39,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "7500.00",
+    "nota": null,
+    "fecha_de_pago": "2022-03-25",
+    "categoria": 16,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 40,
+  "fields": {
+    "tipo_de_registro": "GAST",
+    "importe": "1500.00",
+    "nota": null,
+    "fecha_de_pago": "2022-04-28",
+    "categoria": 43,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 45,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "5000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-31",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 46,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "7000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-15",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 47,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "20000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-01",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 48,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "8000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-07",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+},
+{
+  "model": "finanzas.registros",
+  "pk": 49,
+  "fields": {
+    "tipo_de_registro": "INGR",
+    "importe": "50000.00",
+    "nota": null,
+    "fecha_de_pago": "2022-05-23",
+    "categoria": 64,
+    "cuenta": null,
+    "forma_de_pago": null
+  }
+}
+]

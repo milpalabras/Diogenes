@@ -48,9 +48,11 @@ def circlegastos (request):
     dataP.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").filter(categoria__tipo_de_categoria='P').count())
     dataT.append(Registros.objects.filter(fecha_de_pago__month=now.month).filter(tipo_de_registro="GAST").values('categoria__tipo_de_categoria').count())
     
-    porcentajeF.append (int((dataF[0]*100)/dataT[0]))
-    porcentajeN.append (int((dataN[0]*100)/dataT[0]))
-    porcentajeP.append (int((dataP[0]*100)/dataT[0]))
+    if dataT[0] != 0:
+        porcentajeF.append(dataF[0]/dataT[0]*100)
+        porcentajeN.append(dataN[0]/dataT[0]*100)
+        porcentajeP.append(dataP[0]/dataT[0]*100)
+  
     
     
     context = {'dataF':dataF, 'dataN':dataN, 'dataP':dataP, 'dataT':dataT, 'porcentajeF':porcentajeF, 'porcentajeN':porcentajeN, 'porcentajeP':porcentajeP}

@@ -74,7 +74,7 @@ class Mensaje(models.Model):
 
     def save(self, **kwargs):
         if not self.id:
-            self.sent_at = timezone.now()
+            self.enviado_el = timezone.now()
         super(Mensaje, self).save(**kwargs)
 
     class Meta:

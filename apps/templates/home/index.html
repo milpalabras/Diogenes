@@ -75,11 +75,11 @@
 								<div class="col-md-4 d-flex flex-column justify-content-around">
 									<div>
 										<h6 class="fw-bold text-uppercase text-success op-8">Ingresos totales Anual</h6>
-										<h3 class="fw-bold text-success">${{totalI}}</h3>
+										<h3 class="fw-bold text-success">{% if totalI %}${{totalI|floatformat:2}}{%else%}Sin datos{%endif%}</h3>
 									</div>
 									<div>
 										<h6 class="fw-bold text-uppercase text-danger op-8">Gastos totales Anual</h6>
-										<h3 class="fw-bold text-danger">{% if totalG %}${{totalG}}{%else%}Sin datos{%endif%}</h3>
+										<h3 class="fw-bold text-danger">{% if totalG %}${{totalG|floatformat:2}}{%else%}Sin datos{%endif%}</h3>
 									</div>
 								</div>
 								<div class="col-md-8">
@@ -116,7 +116,7 @@
 						</div>
 						<div class="card-body pb-0">
 							<div class="mb-4 mt-2">
-								<h1>${{totalmensualI}}</h1>
+								<h1>{% if totalmensualI %}${{totalmensualI|floatformat:2}}{%else%}Sin datos{%endif%}</h1>
 							</div>
 							<div class="pull-in">
 								<canvas id="ingresosmensuales" data-url ="{% url 'Chartingresosmensuales' %}"></canvas>
@@ -144,6 +144,8 @@
 {% block javascripts %}	
 	
 	<script src="/static/assets/js/demo.js"></script>
+	<script src="/static/assets/js/setting-demo.js"></script>
+	
 
 	<script>			
 		
@@ -291,56 +293,58 @@ $(function () {
 		
 		new Chart(ctx, {
 			type: 'line',
-			data: {
-				labels: data.labels,
-				datasets:[ {
-					label: "Ingreso", 
-					fill: !0, 
-					backgroundColor: "rgba(255,255,255,0.2)", 
-					borderColor: "#fff", 
-					borderCapStyle: "butt", 
-					borderDash: [], 
-					borderDashOffset: 0, 
-					pointBorderColor: "#fff", 
-					pointBackgroundColor: "#fff", 
-					pointBorderWidth: 1, 
-					pointHoverRadius: 5, 
-					pointHoverBackgroundColor: "#fff", 
-					pointHoverBorderColor: "#fff", 
-					pointHoverBorderWidth: 1, 
-					pointRadius: 1, 
-					pointHitRadius: 5, 
-					data: data.dataI,
-				}]
-			},
-			options : {
-				maintainAspectRatio:!1, legend: {
-					display: !1
+	data: {
+		labels:data.labels,
+		datasets:[ {
+			label: "Ingreso", 
+			fill: !0, 
+			backgroundColor: "rgba(255,255,255,0.2)", 
+			borderColor: "#fff", 
+			borderCapStyle: "butt", 
+			borderDash: [], 
+			borderDashOffset: 0, 
+			pointBorderColor: "#fff", 
+			pointBackgroundColor: "#fff", 
+			pointBorderWidth: 1, 
+			pointHoverRadius: 5, 
+			pointHoverBackgroundColor: "#fff", 
+			pointHoverBorderColor: "#fff", 
+			pointHoverBorderWidth: 1, 
+			pointRadius: 1,
+			tension: 0.1, 
+			pointHitRadius: 5,
+			spanGaps:true, 
+			data: data.dataI
+		}]
+	},
+	options : {
+		maintainAspectRatio:!1, legend: {
+			display: !1
+		}
+		, animation: {
+			easing: "easeInOutBack"
+		}
+		, scales: {
+			yAxes:[ {
+				display:!1, ticks: {
+					fontColor: "rgba(0,0,0,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
 				}
-				, animation: {
-					easing: "easeInOutBack"
-				}
-				, scales: {
-					yAxes:[ {
-						display:!1, ticks: {
-							fontColor: "rgba(0,0,0,0.5)", fontStyle: "bold", beginAtZero: !0, maxTicksLimit: 10, padding: 0
-						}
-						, gridLines: {
-							drawTicks: !1, display: !1
-						}
-					}
-					], xAxes:[ {
-						display:!1, gridLines: {
-							zeroLineColor: "transparent"
-						}
-						, ticks: {
-							padding: -20, fontColor: "rgba(255,255,255,0.2)", fontStyle: "bold"
-						}
-					}
-					]
+				, gridLines: {
+					drawTicks: !1, display: !1
 				}
 			}
-		});	
+			], xAxes:[ {
+				display:!1, gridLines: {
+					zeroLineColor: "transparent"
+				}
+				, ticks: {
+					padding: -20, fontColor: "rgba(255,255,255,0.2)", fontStyle: "bold"
+				}
+			}
+			]
+		}
+	}
+});
 	}
 
 });
