@@ -2,6 +2,9 @@
 
 Diógenes es una aplicacion de finanzas personales desarrollada en Django para control y estadisticas de gastos.
 ![](https://github.com/milpalabras/Diogenes/blob/master/apps/static/assets/img/Diogenes_screenshoots.png)
+
+### [App en Heroku](https://diogenes-mvp.herokuapp.com/)
+
 <br />
 > Caracteristicas
 
