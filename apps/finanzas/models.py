@@ -69,7 +69,12 @@ class Registros (models.Model):
     categoria = models.ForeignKey("Categorias", on_delete=models.SET_NULL, null=True)
     cuenta = models.ForeignKey('Cuenta', on_delete=models.SET_NULL, null=True)    
     forma_de_pago = models.ForeignKey('Forma_de_pago', on_delete=models.CASCADE, null=True, blank=True)
+    comprobante = models.FileField(upload_to='comprobantes/', null=True, blank=True)
     class Meta:
         verbose_name_plural = "Registros"
     def __str__(self):
         return self.get_tipo_de_registro_display() + " - " + str(self.importe) + " - " + str(self.fecha_de_pago)
+    
+    @property
+    def get_comprobante(self):
+        return self.comprobante.url 

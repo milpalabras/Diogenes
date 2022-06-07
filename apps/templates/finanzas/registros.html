@@ -27,6 +27,7 @@
 											<th>Importe</th>
 											<th>Tipo</th>
 											<th>Fecha de pago</th>
+											<th>Comprobante</th>
 											<th style="width: 10%" class=""></th>
 										</tr>
 									</thead>
@@ -39,6 +40,7 @@
 											<td>{{registro.importe}}</td>
 											<td>{{registro.get_tipo_de_registro_display}}</td>
 											<td>{{registro.fecha_de_pago}}</td>
+											<td>{% if registro.comprobante %}<a href={{ registro.get_comprobante }}>{{registro.comprobante}}</a>{% else %} no hay comprobante {% endif %}</td>
 											<td>
 												<div class="form-button-action">
 													<button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-success btn-lg" data-original-title="Ver registro">

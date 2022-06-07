@@ -19,7 +19,7 @@ def registros(request):
 @login_required
 def Cargargastos (request):
     if request.method == 'POST':
-        form = Gastosform(request.POST)
+        form = Gastosform(request.POST, request.FILES)
         if form.is_valid():
             gasto = form.save(commit=False)
             gasto.tipo_de_registro = 'GAST'
@@ -43,7 +43,7 @@ def Cargargastos (request):
 @login_required
 def Cargaringresos (request):
     if request.method == 'POST':
-        form = Ingresosform(request.POST)
+        form = Ingresosform(request.POST, request.FILES)
         if form.is_valid(): 
             ingreso = form.save(commit=False)
             ingreso.tipo_de_registro = 'INGR'
@@ -96,7 +96,7 @@ def EditarRegistro(request, pk):
     importe_actual = Decimal(registro.importe)
    
     if request.method == 'POST':
-        form = Editarform(request.POST, instance=registro)
+        form = Editarform(request.POST, request.FILES, instance=registro)
         if form.is_valid():
             registro = form.save(commit=False)
             registro.importe = request.POST['importe']

@@ -13,13 +13,14 @@ class Gastosform(forms.ModelForm):
 
     class Meta:
         model = Registros
-        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria' )
+        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria', 'comprobante' )
         widgets = {
             'importe': forms.NumberInput(attrs={'class': 'form-control'}),
             'nota': forms.Textarea(attrs={'class': 'form-control'}),
             'fecha_de_pago' : forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de pago', 'type': 'date'}),
             'categoria': forms.Select(attrs={'class': 'form-control', 'id':'basic', 'name':'basic'}),
             'cuenta': forms.Select(attrs={'class': 'form-control'}),
+            'comprobante': forms.FileInput(attrs={'class': 'form-control'}),
         }
     def __init__(self, *args, **kwargs):
         super(Gastosform, self).__init__(*args, **kwargs)
@@ -37,13 +38,14 @@ class Ingresosform(forms.ModelForm):
 
     class Meta:
         model = Registros
-        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria')
+        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria', 'comprobante' )
         widgets = {
             'importe': forms.NumberInput(attrs={'class': 'form-control'}),
             'cuenta': forms.Select(attrs={'class': 'form-control'}),
             'fecha_de_pago' : forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Select a date', 'type': 'date'}),
             'nota': forms.Textarea(attrs={'class': 'form-control'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'comprobante': forms.FileInput(attrs={'class': 'form-control'}),
             
         }
 
@@ -100,13 +102,14 @@ class Categoriaform (forms.ModelForm):
 class Editarform(forms.ModelForm):
     class Meta:
         model = Registros
-        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria' )
+        fields = ('importe', 'cuenta', 'fecha_de_pago', 'nota', 'categoria', 'comprobante' )
         widgets = {
             'importe': forms.NumberInput(attrs={'class': 'form-control'}),
             'nota': forms.Textarea(attrs={'class': 'form-control'}),
             'fecha_de_pago' : forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Fecha de pago', 'type': 'date'}),
             'categoria': forms.Select(attrs={'class': 'form-control'}),
             'cuenta': forms.Select(attrs={'class': 'form-control'}),
+            'comprobante': forms.FileInput(attrs={'class': 'form-control'}),
         }
     def __init__(self, *args, **kwargs):
         super(Editarform, self).__init__(*args, **kwargs)
